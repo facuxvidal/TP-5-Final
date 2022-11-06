@@ -73,16 +73,17 @@ namespace TP_5_Final
                     {
                         rsp_intento_login = "";
                         bandera = false;
-                        cliente.Nombre = valores_cliente[0];
-                        cliente.Apellido = valores_cliente[1];
-                        cliente.CUIT = long.Parse(valores_cliente[2]);
-                        cliente.NumeroDeDocumento = int.Parse(valores_cliente[3]);
-                        cliente.Direccion = valores_cliente[4];
-                        cliente.Telefono = int.Parse(valores_cliente[5]);
-                        cliente.CorreoElectronico = valores_cliente[6];
-                        cliente.EsCorporativo = bool.Parse(valores_cliente[7]);
-                        cliente.Usuario = valores_cliente[8];
-                        cliente.Contraseña = valores_cliente[9];
+                        cliente = Cargar(valores_cliente);
+                        //cliente.Nombre = valores_cliente[0];
+                        //cliente.Apellido = valores_cliente[1];
+                        //cliente.CUIT = long.Parse(valores_cliente[2]);
+                        //cliente.NumeroDeDocumento = int.Parse(valores_cliente[3]);
+                        //cliente.Direccion = valores_cliente[4];
+                        //cliente.Telefono = int.Parse(valores_cliente[5]);
+                        //cliente.CorreoElectronico = valores_cliente[6];
+                        //cliente.EsCorporativo = bool.Parse(valores_cliente[7]);
+                        //cliente.Usuario = valores_cliente[8];
+                        //cliente.Contraseña = valores_cliente[9];
                         SR.Close();
                         break; // Una vez que lo encuentra, cargo las propiedades del cliente y detengo el trabajo
                     }
@@ -96,9 +97,22 @@ namespace TP_5_Final
             return cliente;
         }
 
-        public void Cargar()
+        private Cliente Cargar(string[] datos_a_cargar)
         {
-
+            Cliente cliente = new Cliente
+            {
+                Nombre = datos_a_cargar[0],
+                Apellido = datos_a_cargar[1],
+                CUIT = long.Parse(datos_a_cargar[2]),
+                NumeroDeDocumento = int.Parse(datos_a_cargar[3]),
+                Direccion = datos_a_cargar[4],
+                Telefono = int.Parse(datos_a_cargar[5]),
+                CorreoElectronico = datos_a_cargar[6],
+                EsCorporativo = bool.Parse(datos_a_cargar[7]),
+                Usuario = datos_a_cargar[8],
+                Contraseña = datos_a_cargar[9]
+            };
+            return cliente;
         }
 
         public void MostrarDatos()
