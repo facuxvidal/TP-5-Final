@@ -74,16 +74,6 @@ namespace TP_5_Final
                         rsp_intento_login = "";
                         bandera = false;
                         cliente = Cargar(valores_cliente);
-                        //cliente.Nombre = valores_cliente[0];
-                        //cliente.Apellido = valores_cliente[1];
-                        //cliente.CUIT = long.Parse(valores_cliente[2]);
-                        //cliente.NumeroDeDocumento = int.Parse(valores_cliente[3]);
-                        //cliente.Direccion = valores_cliente[4];
-                        //cliente.Telefono = int.Parse(valores_cliente[5]);
-                        //cliente.CorreoElectronico = valores_cliente[6];
-                        //cliente.EsCorporativo = bool.Parse(valores_cliente[7]);
-                        //cliente.Usuario = valores_cliente[8];
-                        //cliente.Contraseña = valores_cliente[9];
                         SR.Close();
                         break; // Una vez que lo encuentra, cargo las propiedades del cliente y detengo el trabajo
                     }
@@ -117,7 +107,8 @@ namespace TP_5_Final
 
         public void MostrarDatos()
         {
-
+            Console.WriteLine("------------------------------------\nDATOS DEL CLIENTE CORPORATIVO");
+            Console.WriteLine($"Nombre: {Nombre} \nApellido: {Apellido} \nCUIT: {CUIT} \nDNI: {NumeroDeDocumento} \nDireccion: {Direccion} \nTeléfono: {Telefono} \nCorreo Electrónico: {CorreoElectronico}");
         }
 
     }
