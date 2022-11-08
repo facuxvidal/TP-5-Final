@@ -56,6 +56,9 @@ namespace TP_5_Final
 
                     } while (Convert.ToInt32(rsp_encomiendas) != contador_encomiendas);
 
+                    bool urgente = Tarifa.consulta_urgencia();
+                    string region_origen = Menu.MostrarConsutaCiudadOrigen();
+                    string retiro_o_entrega = Menu.RetiroEntrega();
 
 
                     //bool retiro_domicilio, entrega_domicilio;
