@@ -56,9 +56,32 @@ namespace TP_5_Final
 
                     } while (Convert.ToInt32(rsp_encomiendas) != contador_encomiendas);
 
-                    bool urgente = Tarifa.consulta_urgencia();
-                    string region_origen = Menu.MostrarConsutaCiudadOrigen();
-                    string retiro_o_entrega = Menu.RetiroEntrega();
+
+                    bool urgente = Menu.MostrarConsultaUrgencia(); // cargar este dato a la propiedad "EsPrioridad" de una orden de servicio instanciada
+
+
+                    // Consulta direcion de entrega o retiro ORIGEN
+                    string region_origen = Menu.MostrarConsutaProvincia("origen");
+                    solicitud.Origen = region_origen;
+                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega();
+                    if (retiro_o_entrega == "Recoleccion del Domicilio")
+                    {
+                        string direccion_origen = "";
+                        direccion_origen = Menu.MostratConsultaDireccionNacional("origen");
+                        //origen = $"{direccion_origen}, {region_origen}";
+                        //entrega_domicilio = true;
+                    }
+                    else
+                    {
+                        //sucursal_de_retiro = consulto_sucursales();
+                        //origen = $"{sucursal_de_retiro}";
+                        //entrega_domicilio = false;
+                    }
+
+                    
+                    // Consulta direcion de entrega o retiro DESTINO
+                    string region_destino = Menu.MostrarConsutaProvincia("destino");
+                    solicitud.Destino = region_destino;
 
 
                     //bool retiro_domicilio, entrega_domicilio;

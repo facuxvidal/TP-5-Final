@@ -162,11 +162,27 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
-        public static void MostrarConsutaCiudadDestino()
+        public static string MostratConsultaDireccionNacional(string tipo_de_direccion)
         {
-
+            string direccion_origen = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese su dirección de {tipo_de_direccion}: Calle, Altura, Departamento y Código Postal");
+                direccion_origen = Console.ReadLine().Trim();
+                if (String.IsNullOrEmpty(direccion_origen))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Deberá aclarar una direccion valida!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+            return direccion_origen;
         }
-        public static string MostrarConsutaCiudadOrigen()
+        public static string MostrarConsutaProvincia(string ubicacion)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("CABA");
@@ -200,8 +216,7 @@ namespace TP_5_Final
 
             while (bandera)
             {
-                Console.WriteLine($"------------------------------------\nIngrese la provincia de origen (sin tildes):  ");
-
+                Console.WriteLine($"------------------------------------\nIngrese la provincia de {ubicacion} (sin tildes):  ");
                 opcion_elegida = Console.ReadLine();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
@@ -222,8 +237,60 @@ namespace TP_5_Final
             return opcion_elegida;
 
         }
+        public static bool MostrarConsultaUrgencia()
+        {
+            {
+                List<string> opciones_validas = new List<string>();
+                opciones_validas.Add("1");
+                opciones_validas.Add("2");
 
-        public static string RetiroEntrega()
+                string opcion_elegida = "";
+                bool bandera = true;
+                while (bandera)
+                {
+                    Console.WriteLine("------------------------------------\nPor favor responder correctamente: ¿Es urgente el envio de este pedido? Ingrese el número segén corresponda");
+                    Console.WriteLine("[1] Si \n[2] No");
+                    opcion_elegida = Console.ReadLine();
+
+                    if (String.IsNullOrEmpty(opcion_elegida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else if (!int.TryParse(opcion_elegida, out int salida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else if (!opciones_validas.Contains(opcion_elegida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else
+                    {
+                        bandera = false;
+                    }
+                }
+
+                bool rsp = false;
+                switch (opcion_elegida)
+                {
+                    case "1":
+                        {
+                            rsp = true;
+                            break;
+                        }
+                    case "2":
+                        {
+                            rsp = false;
+                            break;
+                        }
+                }
+                return rsp;
+            }
+        }
+        public static string MostrarConsultaRetiroEntrega()
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
