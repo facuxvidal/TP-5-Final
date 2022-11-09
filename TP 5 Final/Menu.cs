@@ -162,79 +162,8 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
-        public static string MostrarConsultaDireccionNacional(string tipo_de_direccion)
+        public static void MostrarConsutaSeguimiento()
         {
-            string direccion_origen = "";
-            bool bandera = true;
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\nIngrese su dirección de {tipo_de_direccion}: Calle, Altura, Departamento y Código Postal");
-                direccion_origen = Console.ReadLine().Trim();
-                if (String.IsNullOrEmpty(direccion_origen))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Deberá aclarar una direccion valida!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-            return direccion_origen;
-        }
-        public static string MostrarConsutaProvincia(string ubicacion)
-        {
-            List<string> opciones_validas = new List<string>();
-            opciones_validas.Add("CABA");
-            opciones_validas.Add("BUENOS AIRES");
-            opciones_validas.Add("CORDOBA");
-            opciones_validas.Add("SAN JUAN");
-            opciones_validas.Add("SAN LUIS");
-            opciones_validas.Add("SANTA CRUZ");
-            opciones_validas.Add("CHUBUT");
-            opciones_validas.Add("RIO NEGRO");
-            opciones_validas.Add("NEUQUEN");
-            opciones_validas.Add("LA PAMPA");
-            opciones_validas.Add("TIERRA DEL FUEGO");
-            opciones_validas.Add("MENDOZA");
-            opciones_validas.Add("LA RIOJA");
-            opciones_validas.Add("ENTRE RIOS");
-            opciones_validas.Add("SANTA FE");
-            opciones_validas.Add("CORRIENTES");
-            opciones_validas.Add("MISIONES");
-            opciones_validas.Add("CHACO");
-            opciones_validas.Add("CATAMARCA");
-            opciones_validas.Add("SANTIAGO DEL ESTERO");
-            opciones_validas.Add("TUCUMAN");
-            opciones_validas.Add("FORMOSA");
-            opciones_validas.Add("SALTA");
-            opciones_validas.Add("JUJUY");
-
-
-            string opcion_elegida = "";
-            bool bandera = true;
-
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\nIngrese la provincia de {ubicacion} (sin tildes):  ");
-                opcion_elegida = Console.ReadLine();
-
-                if (String.IsNullOrEmpty(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No ingreso ninguna provincia.");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!opciones_validas.Contains(opcion_elegida.ToUpper().Trim()))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Ingreso una provincia inexistente!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-            return opcion_elegida;
 
         }
         public static bool MostrarConsultaUrgencia()
@@ -290,61 +219,6 @@ namespace TP_5_Final
                 return rsp;
             }
         }
-        public static string MostrarConsultaRetiroEntrega(string opcion1, string opcion2)
-        {
-            List<string> opciones_validas = new List<string>();
-            opciones_validas.Add("1");
-            opciones_validas.Add("2");
-
-            string opcion_elegida = "";
-            bool bandera = true;
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\nIngrese un número según la opción de entrega/retiro que desee:\n------------------------------------");
-                Console.WriteLine($"[1] {opcion1} \n[2] {opcion2}");
-                opcion_elegida = Console.ReadLine();
-
-                if (String.IsNullOrEmpty(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!ValidaEntero(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!opciones_validas.Contains(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-
-            string rsp;
-            switch (opcion_elegida)
-            {
-                case "1":
-                    {
-                        rsp = $"{opcion1}";
-                        break;
-                    }
-                case "2":
-                    {
-                        rsp = $"{opcion2}";
-                        break;
-                    }
-                default:
-                    rsp = "Sin Identificar";
-                    break;
-            }
-            return rsp;
-        }
-
         public static string MostrarConsultaSucursales(string accion)
         {
             List<string> opciones_validas = new List<string>();
@@ -417,18 +291,281 @@ namespace TP_5_Final
             }
             return rsp;
         }
-        public static string MostrarConsultaInternacional()
+
+
+        public static string MostrarConsutaProvincia(string ubicacion)
         {
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+            opciones_validas.Add("3");
+            opciones_validas.Add("4");
+            opciones_validas.Add("5");
+            opciones_validas.Add("6");
+            opciones_validas.Add("7");
+            opciones_validas.Add("8");
+            opciones_validas.Add("9");
+            opciones_validas.Add("10");
+            opciones_validas.Add("11");
+            opciones_validas.Add("12");
+            opciones_validas.Add("13");
+            opciones_validas.Add("14");
+            opciones_validas.Add("15");
+            opciones_validas.Add("16");
+            opciones_validas.Add("17");
+            opciones_validas.Add("18");
+            opciones_validas.Add("19");
+            opciones_validas.Add("20");
+            opciones_validas.Add("21");
+            opciones_validas.Add("22");
+            opciones_validas.Add("23");
+            opciones_validas.Add("24");
+
             string opcion_elegida = "";
-            bool flag = true;
+            bool bandera = true;
+
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese un número segun la Provincia de {ubicacion} que corresponda:  ");
+                Console.WriteLine("[1] CABA \n[2] BUENOS AIRES \n[3] CORDOBA \n[4] SAN JUAN \n[5] SAN LUIS \n[6] SANTA CRUZ \n[7] CHUBUT \n[8] RIO NEGRO ");
+                Console.WriteLine("[9] NEUQUEN \n[10] LA PAMPA \n[11] TIERRA DEL FUEGO \n[12] MENDOZA \n[13] LA RIOJA \n[14] ENTRE RIOS \n[15] SANTA FE \n[16] CORRIENTES ");
+                Console.WriteLine("[17] MISIONES \n[18] CHACO \n[19] CATAMARCA \n[20] SANTIAGO DEL ESTERO \n[21] TUCUMAN \n[22] FORMOSA \n[23] SALTA \n[24] JUJUY");
+                opcion_elegida = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No ingreso ninguna provincia.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida.ToUpper().Trim()))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Ingreso una provincia inexistente!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+
             string rsp = "";
+            switch (opcion_elegida)
+            {
+                case "1":
+                    {
+                        rsp = "CABA";
+                        break;
+                    }
+                case "2":
+                    {
+                        rsp = "BUENOS AIRES";
+                        break;
+                    }
+                case "3":
+                    {
+                        rsp = "CORDOBA";
+                        break;
+                    }
+                case "4":
+                    {
+                        rsp = "SAN JUAN";
+                        break;
+                    }
+                case "5":
+                    {
+                        rsp = "SAN LUIS";
+                        break;
+                    }
+                case "6":
+                    {
+                        rsp = "SANTA CRUZ";
+                        break;
+                    }
+                case "7":
+                    {
+                        rsp = "CHUBUT";
+                        break;
+                    }
+                case "8":
+                    {
+                        rsp = "RIO NEGRO";
+                        break;
+                    }
+                case "9":
+                    {
+                        rsp = "NEUQUEN";
+                        break;
+                    }
+                case "10":
+                    {
+                        rsp = "LA PAMPA";
+                        break;
+                    }
+                case "11":
+                    {
+                        rsp = "TIERRA DEL FUEGO";
+                        break;
+                    }
+                case "12":
+                    {
+                        rsp = "MENDOZA";
+                        break;
+                    }
+                case "13":
+                    {
+                        rsp = "LA RIOJA";
+                        break;
+                    }
+                case "14":
+                    {
+                        rsp = "ENTRE RIOS";
+                        break;
+                    }
+                case "15":
+                    {
+                        rsp = "SANTA FE";
+                        break;
+                    }
+                case "16":
+                    {
+                        rsp = "CORRIENTES";
+                        break;
+                    }
+                case "17":
+                    {
+                        rsp = "MISIONES";
+                        break;
+                    }
+                case "18":
+                    {
+                        rsp = "CHACO";
+                        break;
+                    }
+                case "19":
+                    {
+                        rsp = "CATAMARCA";
+                        break;
+                    }
+                case "20":
+                    {
+                        rsp = "SANTIAGO DEL ESTERO";
+                        break;
+                    }
+                case "21":
+                    {
+                        rsp = "TUCUMAN";
+                        break;
+                    }
+                case "22":
+                    {
+                        rsp = "FORMOSA";
+                        break;
+                    }
+                case "23":
+                    {
+                        rsp = "SALTA";
+                        break;
+                    }
+                case "24":
+                    {
+                        rsp = "JUJUY";
+                        break;
+                    }
+
+            }
+            return rsp;
+
+        }
+        public static string MostrarConsultaDireccionNacional(string tipo_de_direccion)
+        {
+            string direccion_origen = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese su dirección de {tipo_de_direccion} de la siguiente forma: 'Calle, Altura, Departamento y Código Postal' ");
+                direccion_origen = Console.ReadLine().Trim();
+                if (String.IsNullOrEmpty(direccion_origen))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Deberá aclarar una direccion valida!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+            return direccion_origen;
+        }
+        public static string MostrarConsultaRetiroEntrega(string opcion1, string opcion2)
+        {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
             opciones_validas.Add("2");
 
-            while (flag)
+            string opcion_elegida = "";
+            bool bandera = true;
+            while (bandera)
             {
-                Console.WriteLine("¿Desea enviar su encomienda/correspondencia dentro de Argentina?: \n[1] SI \n[2] NO");
+                Console.WriteLine($"------------------------------------\nIngrese un número según la opción de entrega o retiro que desee:\n------------------------------------");
+                Console.WriteLine($"[1] {opcion1} \n[2] {opcion2}");
+                opcion_elegida = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+
+            string rsp = "";
+            switch (opcion_elegida)
+            {
+                case "1":
+                    {
+                        rsp = $"{opcion1}";
+                        break;
+                    }
+                case "2":
+                    {
+                        rsp = $"{opcion2}";
+                        break;
+                    }
+            }
+            return rsp;
+        }
+
+        
+        public static string MostrarConsultaInternacional()
+        {
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+
+            string rsp = "";
+            string opcion_elegida = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine("------------------------------------\n¿Desea enviar su encomienda/correspondencia dentro de Argentina?: \n[1] Si \n[2] No");
                 opcion_elegida = Console.ReadLine();
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -447,31 +584,22 @@ namespace TP_5_Final
                 }
                 else
                 {
-                    flag = false;
+                    bandera = false;
                 }
             }
 
-            if (opcion_elegida == "1")
+            switch (opcion_elegida)
             {
-                rsp = "Argentina";
-            }
-            else if (opcion_elegida == "2")
-            {
-                bool flag2 = true;
-                while (flag2)
-                {
-                    Console.WriteLine("Ingrese el Pais de destino:  ");
-                    rsp = Console.ReadLine();
-                    if (String.IsNullOrEmpty(rsp))
+                case "1":
                     {
-                        Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
-                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                        rsp = "Nacional";
+                        break;
                     }
-                    else
+                case "2":
                     {
-                        flag2 = false;
+                        rsp = "Internacional";
+                        break;
                     }
-                }
             }
             return rsp;
         }
@@ -553,7 +681,7 @@ namespace TP_5_Final
             bool bandera = true;
             while (bandera)
             {
-                Console.WriteLine($"------------------------------------\nIngrese la dirección de destino: Calle, Altura, Departamento, Ciudad y País ");
+                Console.WriteLine($"------------------------------------\nIngrese la dirección de destino: 'Calle, Altura, Departamento, Ciudad y País' ");
                 direccion_destino = Console.ReadLine().Trim();
                 if (String.IsNullOrEmpty(direccion_destino))
                 {
@@ -567,10 +695,9 @@ namespace TP_5_Final
             }
             return direccion_destino;
         }
-        public static void MostrarConsutaSeguimiento()
-        {
-
-        }
+        
+        
+        
         private static bool ValidaEntero(string numero)
         {
             bool rsp = true;

@@ -72,12 +72,15 @@ namespace TP_5_Final
                     bool entrega_domicilio;
                     bool retiro_domicilio;
 
+                    Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                     // Consulta direcion de entrega o retiro ORIGEN
                     string provincia_origen = Menu.MostrarConsutaProvincia("origen");
                     solicitud.Origen = provincia_origen;
-                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Dejarlo en Sucursal", "Recoleccion del domicilio");
-                    if (retiro_o_entrega == "Recoleccion del Domicilio")
+
+                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Dejarlo en sucursal", "Recoleccion a domicilio");
+                    if (retiro_o_entrega == "Recoleccion a domicilio")
                     {
+                        // aca estoy pidiendo que lo pasen a buscar por mi casa
                         direccion_origen = Menu.MostrarConsultaDireccionNacional("origen");
                         origen = $"{direccion_origen}, {provincia_origen}";
                         entrega_domicilio = true;
@@ -117,22 +120,21 @@ namespace TP_5_Final
                                         origen = "Sucursal de CABA";
                                         break;
                                     }
-                                default:
-                                    origen = "Sin Identificar";
-                                    break;
                             }
                         }
                         entrega_domicilio = false;
                     }
 
-                    // Consulta si es destino internacional
+
+                    Console.WriteLine("------------------------------------\nSELECCIONAR DESTINO");
+                    // Consulta si el DESTINO es NACIONAL o INTERNACIONAL
                     string pais_destino = Menu.MostrarConsultaInternacional();
 
-                    // Si no es internacional
-                    if (pais_destino == "Argentina")
+                    // Consulta direcion de entrega o retiro DESTINO
+                    if (pais_destino == "Nacional") // Si no es Internacional
                     {
-                        retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Retiro en sucursal", "Entrega a domicilio");
-                        if (retiro_o_entrega == "Entrega a domicilio")
+                        retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Retirar en sucursal", "Entregar a domicilio");
+                        if (retiro_o_entrega == "Entregar a domicilio")
                         {
                             provincia_destino = Menu.MostrarConsutaProvincia("destino");
                             direccion_destino = Menu.MostrarConsultaDireccionNacional("destino");
@@ -183,7 +185,7 @@ namespace TP_5_Final
                             }
                         }
                     }
-                    else
+                    else // Si es Internacional
                     {
                         region_internacional = Menu.MostrarConsultaRegionInternacional();
                         direccion_internacional = Menu.MostrarConsultaDireccionInternacional();
@@ -193,8 +195,8 @@ namespace TP_5_Final
 
 
                     // Consulta direcion de entrega o retiro DESTINO
-                    string region_destino = Menu.MostrarConsutaProvincia("destino");
-                    solicitud.Destino = region_destino;
+                    //string region_destino = Menu.MostrarConsutaProvincia("destino");
+                    //solicitud.Destino = region_destino;
 
 
                     //bool retiro_domicilio, entrega_domicilio;
@@ -204,7 +206,24 @@ namespace TP_5_Final
                 }
                 else if (rsp_principal == "2")
                 {
+                    CuentaCliente saldo_cliente = new CuentaCliente();
+                    string rsp_consulta_saldo = saldo_cliente.ConsultarSaldo(cliente);
+                    if (rsp_consulta_saldo != "") // Si es diferente de "", preguntamos si quiere salir
+                    {
+                        Console.WriteLine(rsp_consulta_saldo);
+                        string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
+                        if (rsp_consulta_salir == "1")
+                        {
+                            // Igualo las variables para forzar salir de la ejecucion del programa
+                        }
+                    }
 
+                    else
+                    {
+                        Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                        Console.WriteLine("Presione [Enter] para salir");
+                        Console.ReadLine();
+                    }
                 }
                 else if (rsp_principal == "3")
                 {
@@ -212,7 +231,10 @@ namespace TP_5_Final
                 }
                 else if (rsp_principal == "4")
                 {
-
+                    Console.WriteLine("Hasta luego!");
+                    Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                    Console.WriteLine("Presione [Enter] para salir");
+                    Console.ReadLine();
                 }
             }
         }
