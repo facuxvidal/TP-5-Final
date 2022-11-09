@@ -162,7 +162,7 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
-        public static string MostratConsultaDireccionNacional(string tipo_de_direccion)
+        public static string MostrarConsultaDireccionNacional(string tipo_de_direccion)
         {
             string direccion_origen = "";
             bool bandera = true;
@@ -257,7 +257,7 @@ namespace TP_5_Final
                         Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
                         Console.WriteLine("------------------------------------\nIntente nuevamente!");
                     }
-                    else if (!int.TryParse(opcion_elegida, out int salida))
+                    else if (!ValidaEntero(opcion_elegida))
                     {
                         Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
                         Console.WriteLine("------------------------------------\nIntente nuevamente!");
@@ -290,7 +290,7 @@ namespace TP_5_Final
                 return rsp;
             }
         }
-        public static string MostrarConsultaRetiroEntrega()
+        public static string MostrarConsultaRetiroEntrega(string opcion1, string opcion2)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
@@ -300,8 +300,8 @@ namespace TP_5_Final
             bool bandera = true;
             while (bandera)
             {
-                Console.WriteLine($"------------------------------------\nIngrese un número según la opción de entrega/retiro que le parezca mas comodo\n------------------------------------");
-                Console.WriteLine("[1] Dejarlo en Sucursal \n[2] Recoleccion del Domicilio");
+                Console.WriteLine($"------------------------------------\nIngrese un número según la opción de entrega/retiro que desee:\n------------------------------------");
+                Console.WriteLine($"[1] {opcion1} \n[2] {opcion2}");
                 opcion_elegida = Console.ReadLine();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
@@ -309,7 +309,7 @@ namespace TP_5_Final
                     Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
                     Console.WriteLine("------------------------------------\nIntente nuevamente!");
                 }
-                else if (!int.TryParse(opcion_elegida, out int ingreso))
+                else if (!ValidaEntero(opcion_elegida))
                 {
                     Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
                     Console.WriteLine("------------------------------------\nIntente nuevamente!");
@@ -330,12 +330,12 @@ namespace TP_5_Final
             {
                 case "1":
                     {
-                        rsp = "Dejarlo en Sucursal";
+                        rsp = $"{opcion1}";
                         break;
                     }
                 case "2":
                     {
-                        rsp = "Recoleccion del Domicilio";
+                        rsp = $"{opcion2}";
                         break;
                     }
                 default:
@@ -343,6 +343,229 @@ namespace TP_5_Final
                     break;
             }
             return rsp;
+        }
+
+        public static string MostrarConsultaSucursales(string accion)
+        {
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+            opciones_validas.Add("3");
+            opciones_validas.Add("4");
+            opciones_validas.Add("5");
+
+            string opcion_elegida = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese un número dependiendo de la sucursal donde desea {accion.ToLower()} su pedido\n------------------------------------");
+                Console.WriteLine("[1] VIEDMA\n[2] CORDOBA\n[3] RESISTENCIA\n[4] CABA \n[5] AGENTE OFICIAL EXTERNO");
+                opcion_elegida = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+
+            string rsp;
+            switch (opcion_elegida)
+            {
+                case "1":
+                    {
+                        rsp = $"{accion} en Sucursal de VIEDMA";
+                        break;
+                    }
+                case "2":
+                    {
+                        rsp = $"{accion} en Sucursal de CORDOBA";
+                        break;
+                    }
+                case "3":
+                    {
+                        rsp = $"{accion} en Sucursal de RESISTENCIA";
+                        break;
+                    }
+                case "4":
+                    {
+                        rsp = $"{accion} en Sucursal de CABA";
+                        break;
+                    }
+                case "5":
+                    {
+                        rsp = $"{accion} en Agente oficial externo";
+                        break;
+                    }
+                default:
+                    rsp = "Sin Identificar";
+                    break;
+            }
+            return rsp;
+        }
+        public static string MostrarConsultaInternacional()
+        {
+            string opcion_elegida = "";
+            bool flag = true;
+            string rsp = "";
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+
+            while (flag)
+            {
+                Console.WriteLine("¿Desea enviar su encomienda/correspondencia dentro de Argentina?: \n[1] SI \n[2] NO");
+                opcion_elegida = Console.ReadLine();
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+
+            if (opcion_elegida == "1")
+            {
+                rsp = "Argentina";
+            }
+            else if (opcion_elegida == "2")
+            {
+                bool flag2 = true;
+                while (flag2)
+                {
+                    Console.WriteLine("Ingrese el Pais de destino:  ");
+                    rsp = Console.ReadLine();
+                    if (String.IsNullOrEmpty(rsp))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else
+                    {
+                        flag2 = false;
+                    }
+                }
+            }
+            return rsp;
+        }
+        public static string MostrarConsultaRegionInternacional()
+        {
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+            opciones_validas.Add("3");
+            opciones_validas.Add("4");
+            opciones_validas.Add("5");
+
+            string opcion_elegida = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese un número dependiendo del continente donde desea enviar su pedido: \n------------------------------------");
+                Console.WriteLine("[1] PAISES LIMITROFES\n[2] AMERICA LATINA\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
+                opcion_elegida = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+
+            string rsp;
+            switch (opcion_elegida)
+            {
+                case "1":
+                    {
+                        rsp = $"PAISES LIMITROFE";
+                        break;
+                    }
+                case "2":
+                    {
+                        rsp = $"AMERICA LATINA";
+                        break;
+                    }
+                case "3":
+                    {
+                        rsp = $"AMERICA DEL NORTE";
+                        break;
+                    }
+                case "4":
+                    {
+                        rsp = $"EUROPA";
+                        break;
+                    }
+                case "5":
+                    {
+                        rsp = $"ASIA";
+                        break;
+                    }
+                default:
+                    rsp = "Sin Identificar";
+                    break;
+            }
+            return rsp;
+        }
+        public static string MostrarConsultaDireccionInternacional()
+        {
+            string direccion_destino = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine($"------------------------------------\nIngrese la dirección de destino: Calle, Altura, Departamento, Ciudad y País ");
+                direccion_destino = Console.ReadLine().Trim();
+                if (String.IsNullOrEmpty(direccion_destino))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Deberá aclarar una direccion valida!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+            return direccion_destino;
         }
         public static void MostrarConsutaSeguimiento()
         {
@@ -363,5 +586,7 @@ namespace TP_5_Final
             }
             return rsp;
         }
+
+ 
     }
 }

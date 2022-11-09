@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace TP_5_Final
                 if (rsp_principal == "1")
                 {
                     Random numero_orden_servicio = new Random();
-                    SolicitudDeServicio solicitud = new SolicitudDeServicio(numero_orden_servicio.Next(),DateTime.Now);
+                    SolicitudDeServicio solicitud = new SolicitudDeServicio(numero_orden_servicio.Next(), DateTime.Now);
 
                     string rsp_encomiendas = Menu.MostrarConsultaEncomiendas();
                     int contador_encomiendas = 0;
@@ -59,26 +60,138 @@ namespace TP_5_Final
 
                     bool urgente = Menu.MostrarConsultaUrgencia(); // cargar este dato a la propiedad "EsPrioridad" de una orden de servicio instanciada
 
+                    string origen;
+                    string destino;
+                    string sucursal_de_retiro;
+                    string sucursal_de_entrega;
+                    string direccion_origen;
+                    string provincia_destino;
+                    string direccion_destino;
+                    string region_internacional;
+                    string direccion_internacional;
+                    bool entrega_domicilio;
+                    bool retiro_domicilio;
 
                     // Consulta direcion de entrega o retiro ORIGEN
-                    string region_origen = Menu.MostrarConsutaProvincia("origen");
-                    solicitud.Origen = region_origen;
-                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega();
+                    string provincia_origen = Menu.MostrarConsutaProvincia("origen");
+                    solicitud.Origen = provincia_origen;
+                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Dejarlo en Sucursal", "Recoleccion del domicilio");
                     if (retiro_o_entrega == "Recoleccion del Domicilio")
                     {
-                        string direccion_origen = "";
-                        direccion_origen = Menu.MostratConsultaDireccionNacional("origen");
-                        //origen = $"{direccion_origen}, {region_origen}";
-                        //entrega_domicilio = true;
+                        direccion_origen = Menu.MostrarConsultaDireccionNacional("origen");
+                        origen = $"{direccion_origen}, {provincia_origen}";
+                        entrega_domicilio = true;
+                    }
+                    else  //Si no elegiste provincia que tenga sucursal, te va a decir que lo entregues en agente externo más cercano
+                    {                      
+                        if (provincia_origen != "CHACO" && provincia_origen != "RIO NEGRO" && provincia_origen != "CORDOBA" && provincia_origen != "CABA" && provincia_origen != "BUENOS AIRES")
+                        {
+                            origen = $"Punto de venta externo más cercano en {provincia_origen}";
+                        }
+                        else //Si la provincia tiene sucursal, te va a mandar a ella.
+                        {                            
+                            switch (provincia_origen)
+                            {
+                                case "CHACO":
+                                    {
+                                        origen = "Sucursal de Resistencia";
+                                        break;
+                                    }
+                                case "RIO NEGRO":
+                                    {
+                                        origen = "Sucursal de VIEDMA";
+                                        break;
+                                    }
+                                case "CORDOBA":
+                                    {
+                                        origen = "Sucursal de CORDOBA";
+                                        break;
+                                    }
+                                case "CABA":
+                                    {
+                                        origen = "Sucursal de CABA";
+                                        break;
+                                    }
+                                case "BUENOS AIRES":
+                                    {
+                                        origen = "Sucursal de CABA";
+                                        break;
+                                    }
+                                default:
+                                    origen = "Sin Identificar";
+                                    break;
+                            }
+                        }
+                        entrega_domicilio = false;
+                    }
+
+                    // Consulta si es destino internacional
+                    string pais_destino = Menu.MostrarConsultaInternacional();
+
+                    // Si no es internacional
+                    if (pais_destino == "Argentina")
+                    {
+                        retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Retiro en sucursal", "Entrega a domicilio");
+                        if (retiro_o_entrega == "Entrega a domicilio")
+                        {
+                            provincia_destino = Menu.MostrarConsutaProvincia("destino");
+                            direccion_destino = Menu.MostrarConsultaDireccionNacional("destino");
+                            destino = $"{direccion_destino}, {provincia_destino}, {pais_destino}";
+                            entrega_domicilio = true;
+                        }
+                        else
+                        {
+                            entrega_domicilio = false;
+                            provincia_destino = Menu.MostrarConsutaProvincia("destino");
+                            if (provincia_destino != "CHACO" || provincia_destino != "RIO NEGRO" || provincia_destino != "CORDOBA" || provincia_destino != "CABA" || provincia_destino != "BUENOS AIRES")
+                            {
+                                destino = $"Punto de venta externo más cercano en {provincia_destino}";
+                            }
+                            else //Si la provincia tiene sucursal, te va a mandar a ella.
+                            {
+                                switch (provincia_destino)
+                                {
+                                    case "CHACO":
+                                        {
+                                            destino = "Sucursal de Resistencia";
+                                            break;
+                                        }
+                                    case "RIO NEGRO":
+                                        {
+                                            destino = "Sucursal de VIEDMA";
+                                            break;
+                                        }
+                                    case "CORDOBA":
+                                        {
+                                            destino = "Sucursal de CORDOBA";
+                                            break;
+                                        }
+                                    case "CABA":
+                                        {
+                                            destino = "Sucursal de CABA";
+                                            break;
+                                        }
+                                    case "BUENOS AIRES":
+                                        {
+                                            destino = "Sucursal de CABA";
+                                            break;
+                                        }
+                                    default:
+                                        destino = "Sin Identificar";
+                                        break;
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        //sucursal_de_retiro = consulto_sucursales();
-                        //origen = $"{sucursal_de_retiro}";
-                        //entrega_domicilio = false;
+                        region_internacional = Menu.MostrarConsultaRegionInternacional();
+                        direccion_internacional = Menu.MostrarConsultaDireccionInternacional();
+                        destino = $"{direccion_internacional}, {region_internacional}";
+                        entrega_domicilio = true;
                     }
 
-                    
+
                     // Consulta direcion de entrega o retiro DESTINO
                     string region_destino = Menu.MostrarConsutaProvincia("destino");
                     solicitud.Destino = region_destino;
