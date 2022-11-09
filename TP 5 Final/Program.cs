@@ -195,10 +195,11 @@ namespace TP_5_Final
 
                     // CALCULAR PRECIO BULTO SEGÚN PROVINCIAL/REGIONAL, NACIONAL Y PESO.
                     float precio_bulto = 0f;
-                    decimal tarifa = Tarifa.Calcular(retiro_domicilio, entrega_domicilio, urgente, precio_bulto);
+                    //Tarifa tarifa = new Tarifa();
+                    float tarifa1 = Tarifa.Calcular(retiro_domicilio, entrega_domicilio, urgente, precio_bulto);
 
                     // MOSTRAR RESUMEN - FALTA CALCULAR TARIFA
-                    Menu.MostrarResumenPedido(Convert.ToInt32(contador_encomiendas), tarifa, origen, destino);
+                    Menu.MostrarResumenPedido(Convert.ToInt32(contador_encomiendas), tarifa1, origen, destino);
 
 
                     Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");

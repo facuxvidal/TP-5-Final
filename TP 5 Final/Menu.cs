@@ -711,9 +711,9 @@ namespace TP_5_Final
             return rsp;
         }
 
-        public static void MostrarResumenPedido(int cantidad_encomiendas, decimal tarifa, string origen, string destino)
+        public static void MostrarResumenPedido(int cantidad_encomiendas, float tarifa, string origen, string destino)
         {
-            Random numero_pedido = new();
+            Random numero_pedido = new Random();
             Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido.Next()}");
 
 
