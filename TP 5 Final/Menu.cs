@@ -293,7 +293,7 @@ namespace TP_5_Final
         }
 
 
-        public static string MostrarConsutaProvincia(string ubicacion)
+        public static string MostrarConsultaProvincia(string ubicacion)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
@@ -553,7 +553,6 @@ namespace TP_5_Final
             return rsp;
         }
 
-        
         public static string MostrarConsultaInternacional()
         {
             List<string> opciones_validas = new List<string>();
@@ -695,9 +694,7 @@ namespace TP_5_Final
             }
             return direccion_destino;
         }
-        
-        
-        
+
         private static bool ValidaEntero(string numero)
         {
             bool rsp = true;
@@ -714,6 +711,57 @@ namespace TP_5_Final
             return rsp;
         }
 
- 
+        public static void MostrarResumenPedido(int cantidad_encomiendas, decimal tarifa, string origen, string destino)
+        {
+            Random numero_pedido = new();
+            Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido.Next()}");
+
+
+
+            if (cantidad_encomiendas == 1)
+            {
+                Console.WriteLine($"Encomienda/correspondencia a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa * cantidad_encomiendas)} \nOrigen: {origen} \nDestino: {destino}");
+            }
+            else
+            {
+                Console.WriteLine($"Encomiendas/correspondencias a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa * cantidad_encomiendas)} \nOrigen: {origen} \nDestino: {destino}");
+            }
+
+
+
+            List<string> opciones_validas = new List<string>();
+            opciones_validas.Add("1");
+            opciones_validas.Add("2");
+
+            string opcion_elegida;
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine("------------------------------------\nPor favor confirmar el pedido");
+                Console.WriteLine("[1] Confirmar \n[2] Cancelar");
+                opcion_elegida = Console.ReadLine();
+
+                if (String.IsNullOrEmpty(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion. Por favor seleccione una opcion!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!opciones_validas.Contains(opcion_elegida))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+
+            }
+        }
     }
 }
