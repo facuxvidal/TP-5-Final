@@ -28,6 +28,8 @@ namespace TP_5_Final
                     Random numero_orden_servicio = new Random();
                     SolicitudDeServicio solicitud = new SolicitudDeServicio(numero_orden_servicio.Next(), DateTime.Now);
 
+                    int id_correspondencia = 0;
+                    float peso = 0f;
                     string rsp_encomiendas = Menu.MostrarConsultaEncomiendas();
                     int contador_encomiendas = 0;
                     do
@@ -54,8 +56,25 @@ namespace TP_5_Final
                                 contador_encomiendas = 0;
                             }
                         }
-
+                        if (rsp_consulta_peso == "1")
+                        {
+                            peso = 0.5f;
+                        }
+                        else if (rsp_consulta_peso == "2")
+                        {
+                            peso = 10f;
+                        }
+                        else if (rsp_consulta_peso == "3")
+                        {
+                            peso = 20f;
+                        }
+                        else if (rsp_consulta_peso == "4")
+                        {
+                            peso = 30f;
+                        }
                     } while (Convert.ToInt32(rsp_encomiendas) != contador_encomiendas);
+
+                    EncomiendaCorrespondencia encomienda = new EncomiendaCorrespondencia(id_correspondencia++, peso);
 
 
                     bool urgente = Menu.MostrarConsultaUrgencia(); // cargar este dato a la propiedad "EsPrioridad" de una orden de servicio instanciada
@@ -71,14 +90,16 @@ namespace TP_5_Final
                     string direccion_internacional;
                     bool entrega_domicilio;
                     bool retiro_domicilio;
+                    bool internacional;
 
                     Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                     // Consulta direcion de entrega o retiro ORIGEN
                     string provincia_origen = Menu.MostrarConsultaProvincia("origen");
                     solicitud.Origen = provincia_origen;
 
-                    string retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Dejarlo en sucursal", "Recoleccion a domicilio");
-                    if (retiro_o_entrega == "Recoleccion a domicilio")
+                    string retiro_o_entrega_origen = Menu.MostrarConsultaRetiroEntrega("Dejarlo en sucursal", "Recoleccion a domicilio");
+                    solicitud.TipoDeRetiro = retiro_o_entrega_origen;
+                    if (retiro_o_entrega_origen == "Recoleccion a domicilio")
                     {
                         // aca estoy pidiendo que lo pasen a buscar por mi casa
                         direccion_origen = Menu.MostrarConsultaDireccionNacional("origen");
@@ -89,7 +110,7 @@ namespace TP_5_Final
                     {
                         if (provincia_origen != "CHACO" && provincia_origen != "RIO NEGRO" && provincia_origen != "CORDOBA" && provincia_origen != "CABA" && provincia_origen != "BUENOS AIRES")
                         {
-                            origen = $"Punto de venta externo más cercano en {provincia_origen}";
+                            origen = $"{provincia_origen}";
                         }
                         else //Si la provincia tiene sucursal, te va a mandar a ella.
                         {
@@ -133,13 +154,16 @@ namespace TP_5_Final
                     // Consulta direcion de entrega o retiro DESTINO
                     if (pais_destino == "Nacional") // Si no es Internacional
                     {
-                        retiro_o_entrega = Menu.MostrarConsultaRetiroEntrega("Retirar en sucursal", "Entregar a domicilio");
-                        if (retiro_o_entrega == "Entregar a domicilio")
+                        internacional = false;
+                        string retiro_o_entrega_destino = Menu.MostrarConsultaRetiroEntrega("Retirar en sucursal", "Entregar a domicilio");
+                        solicitud.TipoDeEntrega = retiro_o_entrega_destino;
+                        if (retiro_o_entrega_destino == "Entregar a domicilio")
                         {
                             provincia_destino = Menu.MostrarConsultaProvincia("destino");
                             direccion_destino = Menu.MostrarConsultaDireccionNacional("destino");
                             destino = $"{direccion_destino}, {provincia_destino}, {pais_destino}";
                             entrega_domicilio = true;
+                            solicitud.Destino = destino;
                         }
                         else
                         {
@@ -147,7 +171,7 @@ namespace TP_5_Final
                             provincia_destino = Menu.MostrarConsultaProvincia("destino");
                             if (provincia_destino != "CHACO" || provincia_destino != "RIO NEGRO" || provincia_destino != "CORDOBA" || provincia_destino != "CABA" || provincia_destino != "BUENOS AIRES")
                             {
-                                destino = $"Punto de venta externo más cercano en {provincia_destino}";
+                                destino = $"{provincia_destino}";
                             }
                             else //Si la provincia tiene sucursal, te va a mandar a ella.
                             {
@@ -183,24 +207,35 @@ namespace TP_5_Final
                                         break;
                                 }
                             }
+                            solicitud.Destino = provincia_destino;
                         }
                     }
-                    else // Si es Internacional
+                    // Si es Internacional
+                    else
                     {
+                        internacional = true;
+                        solicitud.TipoDeEntrega = "Entregar a domicilio";
                         region_internacional = Menu.MostrarConsultaRegionInternacional();
                         direccion_internacional = Menu.MostrarConsultaDireccionInternacional();
-                        destino = $"{direccion_internacional}, {region_internacional}";
+                        destino = $"{region_internacional}, {direccion_internacional}";
                         entrega_domicilio = true;
+                        solicitud.Destino = region_internacional;
                     }
+                    
+
 
                     // CALCULAR PRECIO BULTO SEGÚN PROVINCIAL/REGIONAL, NACIONAL Y PESO.
                     float precio_bulto = 0f;
-                    //Tarifa tarifa = new Tarifa();
-                    float tarifa1 = Tarifa.Calcular(retiro_domicilio, entrega_domicilio, urgente, precio_bulto);
+                    Tarifa tarifa = new Tarifa(internacional, urgente, retiro_domicilio, entrega_domicilio);
+                    float tarifa1 = Tarifa.Calcular(tarifa.RecargoRetiroEnPuerta, tarifa.RecargoEntregaEnPuerta, tarifa.RecargoUrgente, solicitud.Origen, solicitud.Destino, tarifa.EsInternacional, encomienda.Peso);
+
 
                     // MOSTRAR RESUMEN - FALTA CALCULAR TARIFA
-                    Menu.MostrarResumenPedido(Convert.ToInt32(contador_encomiendas), tarifa1, origen, destino);
+                    Menu.MostrarResumenPedido(Convert.ToInt32(contador_encomiendas), tarifa1, origen, destino, solicitud.NumeroOrdenServicio);
 
+
+                    // CREAR ORDEN DE SERVICIO UNA VEZ CONFIRMADO
+                    OrdenDeServicio orden = new OrdenDeServicio(solicitud.NumeroOrdenServicio, urgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso");
 
                     Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
                     Console.WriteLine("Presione [Enter] para salir");

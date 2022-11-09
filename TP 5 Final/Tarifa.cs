@@ -25,30 +25,177 @@ namespace TP_5_Final
         public bool RecargoEntregaEnPuerta { get; set; }
 
 
-        public static float Calcular(bool retiro_domicilio, bool entrega_domicilio, bool urgente, float precio_bulto)
+        public static float Calcular(bool retiro_domicilio, bool entrega_domicilio, bool urgente, string origen, string destino, bool internacional, float peso)
         {
+            float precio_bulto = 0f;
+
             // interanacionales
-            string tarifas_internacionales = Path.GetFullPath("..\\..\\..\\PreciosInternacionales.txt");
-            FileInfo FI = new FileInfo(tarifas_internacionales);
-            StreamReader SR = FI.OpenText();
-            string[] lineas = File.ReadAllLines(tarifas_internacionales);
-            int contador_lineas = 0;
-            while (!SR.EndOfStream)
+            if (internacional)
             {
-                SR.ReadLine();
-                var tarifas = lineas[contador_lineas].Split('|');
-                if (tarifas[0]=="0.5")
+                string tarifas_internacionales = Path.GetFullPath("..\\..\\..\\PreciosInternacionales.txt");
+                FileInfo FI = new FileInfo(tarifas_internacionales);
+                StreamReader SR = FI.OpenText();
+                string[] lineas = File.ReadAllLines(tarifas_internacionales);
+                int contador_lineas = 0;
+                while (!SR.EndOfStream)
                 {
+                    SR.ReadLine();
+                    var tarifas = lineas[contador_lineas].Split('|');
 
+                    // NO SE SI ESTA BIEN. NOS FALTA EL DATO DEL PESO PARA COMPARAR CUAL DEBERIA SER)
+                    if (tarifas[0] == "0.5")
+                    {
+                        switch (destino)
+                        {
+                            case "PAISES LIMITROFES":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[1]);
+                                    break;
+                                }
+                            case "AMERICA LATINA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[2]);
+                                    break;
+                                }
+                            case "AMERICA DEL NORTE":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[3]);
+                                    break;
+                                }
+                            case "EUROPA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[4]);
+                                    break;
+                                }
+                            case "ASIA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[5]);
+                                    break;
+                                }
+                            default:
+                                destino = "Sin Identificar";
+                                break;
+                        }
+                    }
+                    else if (tarifas[0] == "10")
+                    {
+                        switch (destino)
+                        {
+                            case "PAISES LIMITROFES":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[1]);
+                                    break;
+                                }
+                            case "AMERICA LATINA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[2]);
+                                    break;
+                                }
+                            case "AMERICA DEL NORTE":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[3]);
+                                    break;
+                                }
+                            case "EUROPA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[4]);
+                                    break;
+                                }
+                            case "ASIA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[5]);
+                                    break;
+                                }
+                            default:
+                                destino = "Sin Identificar";
+                                break;
+                        }
+                    }
+                    else if (tarifas[0] == "20")
+                    {
+                        switch (destino)
+                        {
+                            case "PAISES LIMITROFES":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[1]);
+                                    break;
+                                }
+                            case "AMERICA LATINA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[2]);
+                                    break;
+                                }
+                            case "AMERICA DEL NORTE":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[3]);
+                                    break;
+                                }
+                            case "EUROPA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[4]);
+                                    break;
+                                }
+                            case "ASIA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[5]);
+                                    break;
+                                }
+                            default:
+                                destino = "Sin Identificar";
+                                break;
+                        }
+                    }
+                    else if (tarifas[0] == "30")
+                    {
+                        switch (destino)
+                        {
+                            case "PAISES LIMITROFES":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[1]);
+                                    break;
+                                }
+                            case "AMERICA LATINA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[2]);
+                                    break;
+                                }
+                            case "AMERICA DEL NORTE":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[3]);
+                                    break;
+                                }
+                            case "EUROPA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[4]);
+                                    break;
+                                }
+                            case "ASIA":
+                                {
+                                    precio_bulto = Convert.ToSingle(tarifas[5]);
+                                    break;
+                                }
+                            default:
+                                destino = "Sin Identificar";
+                                break;
+                        }
+                    }
+
+
+                    else
+                    {
+                        SR.Close();
+                        break;
+                    }
+                    contador_lineas++;
                 }
-                else
-                {
-                    SR.Close();
-                    break;
-                }
-                contador_lineas++;
+
+                if(destino == tarifas_internacionales[])
             }
+            // nacionales
+            else
+            {
 
+            }
 
             // A CODEAR
             float sumador = 0f;
@@ -71,7 +218,7 @@ namespace TP_5_Final
             return 12;
         }
 
-        public void Cargar()
+        public static void Cargar()
         {
             
 

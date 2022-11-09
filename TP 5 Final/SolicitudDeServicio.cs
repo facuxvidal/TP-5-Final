@@ -16,7 +16,8 @@ namespace TP_5_Final
 
         public int NumeroOrdenServicio { get; set; }
         public DateTime Fecha { get; set; }
-        public String TipoDeServicio { get; set; } // Entrega/Retiro en puerta o en sucursal. Codear "Elegir Tipo de Servicio"
+        public String TipoDeRetiro { get; set; }
+        public String TipoDeEntrega { get; set; } // Entrega/Retiro en puerta o en sucursal. Codear "Elegir Tipo de Servicio"
         public String Destino { get; set; }
         public String Origen { get; set; }
 

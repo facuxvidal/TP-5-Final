@@ -645,7 +645,7 @@ namespace TP_5_Final
             {
                 case "1":
                     {
-                        rsp = $"PAISES LIMITROFE";
+                        rsp = $"PAISES LIMITROFES";
                         break;
                     }
                 case "2":
@@ -711,12 +711,9 @@ namespace TP_5_Final
             return rsp;
         }
 
-        public static void MostrarResumenPedido(int cantidad_encomiendas, float tarifa, string origen, string destino)
+        public static void MostrarResumenPedido(int cantidad_encomiendas, float tarifa, string origen, string destino, int numero_pedido)
         {
-            Random numero_pedido = new Random();
-            Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido.Next()}");
-
-
+            Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido}");
 
             if (cantidad_encomiendas == 1)
             {

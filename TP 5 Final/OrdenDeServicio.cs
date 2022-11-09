@@ -8,6 +8,15 @@ namespace TP_5_Final
 {
     public class OrdenDeServicio
     {
+        public OrdenDeServicio(int numeroOrden, bool esPrioridad, DateTime fechaCreacion, DateTime fechaEntrega, string estado)
+        {
+            NumeroOrden = numeroOrden;
+            EsPrioridad = esPrioridad;
+            FechaCreacion = fechaCreacion;
+            FechaEntrega = fechaEntrega;
+            Estado = estado;
+        }
+
         public int NumeroOrden { get; set; }
         public bool EsPrioridad { get; set; }
         public DateTime FechaCreacion { get; set; }
