@@ -1,5 +1,4 @@
 ﻿using Microsoft.SqlServer.Server;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -690,7 +689,7 @@ namespace TP_5_Final
             bool bandera = true;
             while (bandera)
             {
-                Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corrresponda: \n------------------------------------");
+                Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
                 Console.WriteLine("[1] A PAISES LIMITROFES\n[2] AMERICA DEL SUR\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
                 opcion_elegida = Console.ReadLine();
 
@@ -783,17 +782,17 @@ namespace TP_5_Final
             return rsp;
         }
 
-        public static void MostrarResumenPedido(int cantidad_encomiendas, float tarifa, string origen, string destino, int numero_pedido)
+        public static string MostrarResumenPedido(int cantidad_encomiendas, decimal tarifa, string origen, string destino, int numero_pedido)
         {
             Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido}");
 
             if (cantidad_encomiendas == 1)
             {
-                Console.WriteLine($"Encomienda/correspondencia a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa * cantidad_encomiendas)} \nOrigen: {origen} \nDestino: {destino}");
+                Console.WriteLine($"Encomienda/correspondencia a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa)} \nOrigen: {origen} \nDestino: {destino}");
             }
             else
             {
-                Console.WriteLine($"Encomiendas/correspondencias a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa * cantidad_encomiendas)} \nOrigen: {origen} \nDestino: {destino}");
+                Console.WriteLine($"Encomiendas/correspondencias a enviar: {cantidad_encomiendas} \nTarifa: ${(tarifa)} \nOrigen: {origen} \nDestino: {destino}");
             }
 
             List<string> opciones_validas = new List<string>();
@@ -828,6 +827,7 @@ namespace TP_5_Final
                     bandera = false;
                 }
             }
+            return opcion_elegida;
         }
     }
 }

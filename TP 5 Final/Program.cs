@@ -72,11 +72,16 @@ namespace TP_5_Final
                                 // Igualo las variables para forzar salir de la ejecucion del programa
                                 rsp_encomiendas = "0";
                                 contador_encomiendas = 0;
+                                Console.WriteLine("Hasta luego!");
+                                Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                                Console.WriteLine("Presione [Enter] para salir");
+                                Console.ReadLine();
+                                Environment.Exit(0);
                             }
                         }
 
                     } while (Convert.ToInt32(rsp_encomiendas) != contador_encomiendas);
-                    
+
                     bool urgente = Menu.MostrarConsultaUrgencia(); // cargar este dato a la propiedad "EsPrioridad" de una orden de servicio instanciada
 
                     string origen = "";
@@ -88,6 +93,7 @@ namespace TP_5_Final
                     bool entrega_domicilio;
                     bool retiro_domicilio;
                     bool es_internacional;
+                    string ubicacion = "";
 
                     Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                     // Consulta direcion de Entrega o Retiro de ORIGEN
@@ -95,7 +101,7 @@ namespace TP_5_Final
                     string localidad_origen = Menu.MostrarConsultaLocalidadXProvincia(provincia_origen);
                     solicitud.Origen = $"{localidad_origen.ToUpper()}, {provincia_origen}";
 
-                    string retiro_o_entrega_origen = Menu.MostrarConsultaRetiroEntrega("En sucursal", "A domicilio", "Retiro");
+                    string retiro_o_entrega_origen = Menu.MostrarConsultaRetiroEntrega("En sucursal", "A domicilio", "Recoleccion");
                     solicitud.TipoDeRetiro = retiro_o_entrega_origen;
                     if (retiro_o_entrega_origen == "A domicilio")
                     {
@@ -104,7 +110,7 @@ namespace TP_5_Final
                         direccion_origen = Menu.MostrarConsultaDireccionNacional("ORIGEN");
                         solicitud.Origen = $"{direccion_origen}, {localidad_origen.ToUpper()}, {provincia_origen}";
                     }
-                    else  
+                    else
                     {
                         retiro_domicilio = false;
                         // Si no elegiste provincia que tenga sucursal, te va a decir que lo entregues en Agente Oficial Externo más cercano
@@ -112,7 +118,7 @@ namespace TP_5_Final
                         {
                             origen = $"Agente Oficial Externo de: {localidad_origen}";
                         }
-                        else 
+                        else
                         {
                             // Si la provincia tiene sucursal, te va a mandar a ella
                             switch (provincia_origen)
@@ -151,20 +157,21 @@ namespace TP_5_Final
                     Console.WriteLine("------------------------------------\nSELECCIONAR DESTINO");
                     // Consulta si el DESTINO es Nacional o Internacional
                     string pais_destino = Menu.MostrarConsultaInternacional();
-
+                    string localidad_destino = "";
                     // Consulta direcion de entrega o retiro DESTINO
-                    if (pais_destino == "Nacional") 
+                    string provincia_destino = "";
+
+                    if (pais_destino == "Nacional")
                     {
                         // Si no es Internacional
                         es_internacional = false;
-                        string provincia_destino = "";
                         string retiro_o_entrega_destino = Menu.MostrarConsultaRetiroEntrega("En sucursal", "A domicilio", "Entrega");
                         solicitud.TipoDeEntrega = retiro_o_entrega_destino;
                         if (retiro_o_entrega_destino == "A domicilio")
                         {
                             entrega_domicilio = true;
                             provincia_destino = Menu.MostrarConsultaProvincia("DESTINO");
-                            string localidad_destino = Menu.MostrarConsultaLocalidadXProvincia(provincia_destino);
+                            localidad_destino = Menu.MostrarConsultaLocalidadXProvincia(provincia_destino);
                             direccion_destino = Menu.MostrarConsultaDireccionNacional("DESTINO");
                             destino = $"{direccion_destino}, {localidad_destino.ToUpper()}, {provincia_destino}";
                             solicitud.Destino = destino;
@@ -173,11 +180,12 @@ namespace TP_5_Final
                         {
                             entrega_domicilio = false;
                             provincia_destino = Menu.MostrarConsultaProvincia("DESTINO");
+                            localidad_destino = Menu.MostrarConsultaLocalidadXProvincia(provincia_destino);
                             if (provincia_destino != "CHACO" && provincia_destino != "RIO NEGRO" && provincia_destino != "CORDOBA" && provincia_destino != "CABA" && provincia_destino != "BUENOS AIRES")
                             {
-                                destino = $"{provincia_destino}";
+                                destino = $"{localidad_destino.ToUpper()}, {provincia_destino}";
                             }
-                            else 
+                            else
                             {
                                 // Si la provincia tiene sucursal, te va a mandar a ella
                                 switch (provincia_destino)
@@ -212,9 +220,9 @@ namespace TP_5_Final
                             solicitud.Destino = destino;
                         }
                     }
+                    // Si es Internacional
                     else
                     {
-                        // Si es Internacional
                         es_internacional = true;
                         entrega_domicilio = true;
                         solicitud.TipoDeEntrega = "A domicilio";
@@ -222,17 +230,59 @@ namespace TP_5_Final
                         direccion_internacional = Menu.MostrarConsultaDireccionInternacional();
                         destino = $"{direccion_internacional}, {region_internacional}";
                         solicitud.Destino = destino;
+                        ubicacion = region_internacional;
                     }
+
+                    // Definir tipo de envio para tarifario
+
+                    List<string> RegionSur = new List<string>() { "TIERRA DEL FUEGO", "SANTA CRUZ", "CHUBUT", "RIO NEGRO", "NEUQUEN", "LA PAMPA" };
+                    List<string> RegionCentro = new List<string>() { "ENTRE RIOS", "CORDOBA", "SANTA FE", "SAN LUIS", "SAN JUAN", "MENDOZA", "LA RIOJA" };
+                    List<string> RegionNorte = new List<string>() { "CHACO", "MISIONES", "CORRIENTES", "SANTIAGO DEL ESTERO", "FORMOSA", "JUJUY", "SALTA", "TUCUMAN", "CATAMARCA" };
+                    List<string> RegionMetropolitana = new List<string>() { "BUENOS AIRES", "CABA" };
+
+                    if (ubicacion == "")
+                    {
+                        if (localidad_origen == localidad_destino)
+                        {
+                            ubicacion = "LOCAL";
+                        }
+                        else if (provincia_origen == provincia_destino)
+                        {
+                            ubicacion = "PROVINCIAL";
+                        }
+                        else if ((RegionSur.Contains(provincia_origen) && RegionSur.Contains(provincia_destino))
+                            || (RegionCentro.Contains(provincia_origen) && RegionCentro.Contains(provincia_destino))
+                            || (RegionMetropolitana.Contains(provincia_origen) && RegionMetropolitana.Contains(provincia_destino))
+                            || (RegionNorte.Contains(provincia_origen) && RegionNorte.Contains(provincia_destino)))
+                        {
+                            ubicacion = "REGIONAL";
+                        }
+                        else if (!((RegionSur.Contains(provincia_origen) && RegionSur.Contains(provincia_destino))
+                            || (RegionCentro.Contains(provincia_origen) && RegionCentro.Contains(provincia_destino))
+                            || (RegionMetropolitana.Contains(provincia_origen) && RegionMetropolitana.Contains(provincia_destino))
+                            || (RegionNorte.Contains(provincia_origen) && RegionNorte.Contains(provincia_destino))))
+                        {
+                            ubicacion = "NACIONAL";
+                        }
+                    }
+
 
                     // CALCULAR PRECIO BULTO SEGÚN PROVINCIAL/REGIONAL, NACIONAL Y PESO.
                     Tarifa tarifa = new Tarifa(es_internacional, urgente, retiro_domicilio, entrega_domicilio);
-                    //float tarifa1 = Tarifa.Calcular(tarifa.RecargoRetiroEnPuerta, tarifa.RecargoEntregaEnPuerta, tarifa.RecargoUrgente, solicitud.Origen, solicitud.Destino, tarifa.EsInternacional, encomienda.Peso);
-                    Tarifa.Calcular2(tarifa, solicitud, encomiendas);
+                    Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion);
+                    Console.WriteLine(tarifa);
 
-                    // MOSTRAR RESUMEN - FALTA CALCULAR TARIFA
-                    //Menu.MostrarResumenPedido(contador_encomiendas, tarifa1, origen, destino, solicitud.NumeroOrdenServicio); // tarifa.MontoTotal
+                    // Muestra resumen y pide confirmación
+                    string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino, solicitud.NumeroOrdenServicio); // tarifa.MontoTotal
+                    if (confirmacion == "2")
+                    {
+                        Console.WriteLine("Hasta luego!");
+                        Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                        Console.WriteLine("Presione [Enter] para salir");
+                        Console.ReadLine();
+                        Environment.Exit(0);
+                    }
 
-                    
                     // CREAR ORDEN DE SERVICIO UNA VEZ CONFIRMADO
                     OrdenDeServicio orden = new OrdenDeServicio(solicitud.NumeroOrdenServicio, urgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso");
 
@@ -244,6 +294,12 @@ namespace TP_5_Final
                 }
                 else if (rsp_principal == "2")
                 {
+                    // PEDIR FECHA INICIO Y FIN
+
+                    // MUESTRA FACTURAS DENTRO DE ESAS FECHAS CON LA INFO DE C/U. (FECHA, TOTAL, PAGO/IMPAGO)
+
+                    // ESTADO GENERAL DE LA CUENTA
+
                     CuentaCliente saldo_cliente = new CuentaCliente();
                     string rsp_consulta_saldo = saldo_cliente.ConsultarSaldo(cliente);
                     if (rsp_consulta_saldo != "") // Si es diferente de "", preguntamos si quiere salir
@@ -265,6 +321,20 @@ namespace TP_5_Final
                 }
                 else if (rsp_principal == "3")
                 {
+                    // Mostrar estado de pedido ingresando un numero, buscando en txt
+
+
+                    // Si numero pedido es erróneo, debe consultarte si querés salir.
+                    string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
+                    if (rsp_consulta_salir == "1")
+                    {
+                        Console.WriteLine("Hasta luego!");
+                        Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                        Console.WriteLine("Presione [Enter] para salir");
+                        Console.ReadLine();
+                        Environment.Exit(0);
+                    }
+
 
                 }
                 else if (rsp_principal == "4")
