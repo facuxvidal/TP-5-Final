@@ -52,7 +52,7 @@ namespace TP_5_Final
                                     precio_bulto = Convert.ToSingle(tarifas[1]);
                                     break;
                                 }
-                            case "AMERICA LATINA":
+                            case "AMERICA DEL SUR":
                                 {
                                     precio_bulto = Convert.ToSingle(tarifas[2]);
                                     break;
@@ -189,7 +189,7 @@ namespace TP_5_Final
                     contador_lineas++;
                 }
 
-                if(destino == tarifas_internacionales[])
+                //if(destino == tarifas_internacionales[])
             }
             // nacionales
             else
@@ -218,12 +218,103 @@ namespace TP_5_Final
             return 12;
         }
 
-        public static void Cargar()
+        public static void Calcular2(Tarifa tarifa, SolicitudDeServicio solicitud, List<EncomiendaCorrespondencia> encomiendas)
         {
-            
-
+            if (tarifa.EsInternacional)
+            {
+                string tarifas_internacionales = Path.GetFullPath("..\\..\\..\\PreciosInternacionales.txt");
+                FileInfo FI = new FileInfo(tarifas_internacionales);
+                StreamReader SR = FI.OpenText();
+                string[] lineas = File.ReadAllLines(tarifas_internacionales);
+                int contador_lineas = 0;
+                decimal precio_bulto = 0;
+                while (!SR.EndOfStream)
+                {
+                    SR.ReadLine();
+                    var tarifas = lineas[contador_lineas].Split('|');
+                    contador_lineas++;
+                    foreach (var encomienda in encomiendas)
+                    {
+                        if (tarifas[0] == encomienda.Peso.ToString())
+                        {
+                            switch (solicitud.Destino)
+                            {
+                                case "PAISES LIMITROFES":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[1]);
+                                        break;
+                                    }
+                                case "AMERICA DEL SUR":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[2]);
+                                        break;
+                                    }
+                                case "AMERICA DEL NORTE":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[3]);
+                                        break;
+                                    }
+                                case "EUROPA":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[4]);
+                                        break;
+                                    }
+                                case "ASIA":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[5]);
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+                SR.Close();
+            }
+            else
+            {
+                string tarifas_nacionales = Path.GetFullPath("..\\..\\..\\PreciosNacionales.txt");
+                FileInfo FI = new FileInfo(tarifas_nacionales);
+                StreamReader SR = FI.OpenText();
+                string[] lineas = File.ReadAllLines(tarifas_nacionales);
+                int contador_lineas = 0;
+                decimal precio_bulto = 0;
+                while (!SR.EndOfStream)
+                {
+                    SR.ReadLine();
+                    var tarifas = lineas[contador_lineas].Split('|');
+                    contador_lineas++;
+                    foreach (var encomienda in encomiendas)
+                    {
+                        if (tarifas[0] == encomienda.Peso.ToString())
+                        {
+                            switch (solicitud.Destino)
+                            {
+                                case "LOCAL":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[1]);
+                                        break;
+                                    }
+                                case "PROVINCIAL":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[2]);
+                                        break;
+                                    }
+                                case "REGIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[3]);
+                                        break;
+                                    }
+                                case "NACIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(tarifas[4]);
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+                SR.Close();
+            }
         }
-
-
     }
 }
