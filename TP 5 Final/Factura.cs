@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,7 +66,13 @@ namespace TP_5_Final
 
             Random numero_random = new Random();
             string numero_factura = $"0001-{numero_random.Next()}";
-            Factura factura = new Factura(numero_factura, precio_final, unidades, DateTime.Now.Date, DateTime.Now.Date.AddDays(30), "Impaga", CUIT);
+
+            // Al ser facturacion por mes, todas las facturas que se emitan en los dias del mes corriente, se venceran el ultimo dia del mes 
+            DateTime hoy = DateTime.Now.Date;
+            var dias_del_mes = DateTime.DaysInMonth(hoy.Year, hoy.Month);
+            DateTime ultimo_dia_mes = new DateTime(hoy.Year, hoy.Month, dias_del_mes);
+
+            Factura factura = new Factura(numero_factura, precio_final, unidades, hoy, ultimo_dia_mes, "Impaga", CUIT);
             Facturas.Add(factura);
 
             StreamWriter SW = new StreamWriter(path);
@@ -99,19 +106,11 @@ namespace TP_5_Final
                     if (long.Parse(valores_factura[6]) == cliente.CUIT)
                     {
                         // Si la fecha desde esta entre las dos fechas guardadas y la fecha hasta tambien
-
                         if (fecha_a_consultar[0] <= DateTime.Parse(valores_factura[3]) && fecha_a_consultar[1] >= DateTime.Parse(valores_factura[3]))
                         {
-                            resumen_factuacion += $"N° Factura: {valores_factura[0]} \nPrecio Total: ${valores_factura[1]} \nUnidades: {valores_factura[2]} \nFecha Desde: {valores_factura[3].ToString().Substring(0, 10)} \nFecha Hasta: {valores_factura[4].ToString().Substring(0, 10)} \nEstado: {valores_factura[5]}\n************************************\n";
+                            resumen_factuacion += $"N° Factura: {valores_factura[0]} \nPrecio Total: ${valores_factura[1]} \nUnidades: {valores_factura[2]} \nFecha Creacion: {valores_factura[3].ToString().Substring(0, 10)} \nFecha Vencimiento: {valores_factura[4].ToString().Substring(0, 10)} \nEstado: {valores_factura[5]}\n************************************\n";
                             contador_cuit++;
                         }
-                        
-                        /*if (Between(fecha_a_consultar[0], DateTime.Parse(valores_factura[3]), DateTime.Parse(valores_factura[4])) &&
-                       Between(fecha_a_consultar[1], DateTime.Parse(valores_factura[3]), DateTime.Parse(valores_factura[4])))
-                        {
-                            resumen_factuacion += $"N° Factura: {valores_factura[0]} \nPrecio Total: ${valores_factura[1]} \nUnidades: {valores_factura[2]} \nFecha Desde: {valores_factura[3].ToString().Substring(0, 10)} \nFecha Hasta: {valores_factura[4].ToString().Substring(0, 10)} \nEstado: {valores_factura[5]}\n************************************\n";
-                            contador_cuit++;
-                        }*/
 
                     }
                     contador_lineas++;
@@ -128,14 +127,74 @@ namespace TP_5_Final
             }
             else
             {
-                Console.WriteLine("------------------------------------\n¡No se encontraron facturas cargadas en el sistema!\n------------------------------------");
+                Console.WriteLine("------------------------------------\n¡No se encontraron Facturas cargadas en el sistema!\n------------------------------------");
             }
             SR.Close();
         }
 
-        private static bool Between(DateTime input, DateTime date1, DateTime date2)
+        public static void ConsultarSaldo(Cliente cliente, List<DateTime> fecha_a_consultar)
         {
-            return (input <= date1 && input >= date2);
+            string ubicacion_archivo = Path.GetFullPath("..\\..\\..\\Facturas.txt");
+            FileInfo FI = new FileInfo(ubicacion_archivo);
+            StreamReader SR = FI.OpenText();
+            string[] lineas = File.ReadAllLines(ubicacion_archivo);
+            int contador_lineas = 0;
+            int contador_pedidos_en_periodo = 0;
+            decimal contador_pedidos = 0;
+            decimal acumula_montos_pagos = 0;
+            decimal acumula_montos_impagos = 0;
+            decimal acumula_montos_pagos_en_periodo = 0;
+            decimal acumula_montos_impagos_en_periodo = 0;
+            while (!SR.EndOfStream)
+            {
+                SR.ReadLine();
+                var valores_factura = lineas[contador_lineas].Split('|');
+
+                if (cliente.CUIT == long.Parse(valores_factura[6]))
+                {
+                    if (fecha_a_consultar[0] <= DateTime.Parse(valores_factura[3]) && fecha_a_consultar[1] >= DateTime.Parse(valores_factura[3]))
+                    {
+                        // Sumamos facturas por periodo
+                        if (valores_factura[5] == "Impaga")
+                        {
+                            acumula_montos_impagos_en_periodo += decimal.Parse(valores_factura[1]);
+                        }
+                        else if (valores_factura[5] == "Paga")
+                        {
+                            acumula_montos_pagos_en_periodo += decimal.Parse(valores_factura[1]);
+                        }
+                        contador_pedidos_en_periodo++;
+                    }
+                    // Sumamos facturas totales
+                    if (valores_factura[5] == "Impaga")
+                    {
+                        acumula_montos_impagos += decimal.Parse(valores_factura[1]);
+                    }
+                    else if (valores_factura[5] == "Paga")
+                    {
+                        acumula_montos_pagos += decimal.Parse(valores_factura[1]);
+                    }
+                    contador_pedidos++;
+
+                }
+                contador_lineas++;
+            }
+
+            if (contador_pedidos != 0)
+            {
+                if (contador_pedidos_en_periodo != 0)
+                {
+                    Console.WriteLine($"------------------------------------\nSALDO DE CUENTA DE {cliente.Nombre} {cliente.Apellido} ENTRE {fecha_a_consultar[0].ToString().Substring(0, 10)} y {fecha_a_consultar[1].ToString().Substring(0, 10)}\n------------------------------------");
+                    Console.WriteLine($"Facturacion Paga en Periodo: ${acumula_montos_pagos_en_periodo} \nFacturacion Impaga en Periodo: ${acumula_montos_impagos_en_periodo} \nServicios facturados en Periodo: {contador_pedidos_en_periodo}");
+                }
+                else
+                {
+                    Console.WriteLine($"No se encontraron facturas asociadas a su cuenta en el periodo de {fecha_a_consultar[0].ToString().Substring(0, 10)} - {fecha_a_consultar[1].ToString().Substring(0, 10)}");
+                }
+                Console.WriteLine($"------------------------------------\nSALDO TOTAL DE CUENTA DE {cliente.Nombre} {cliente.Apellido}\n------------------------------------");
+                Console.WriteLine($"Total Facturacion Paga: ${acumula_montos_pagos} \nTotal Facturacion Impaga: ${acumula_montos_impagos} \nTotal Servicios facturados: {contador_pedidos}");
+            }
+
         }
 
         public string ToFormat()

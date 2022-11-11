@@ -15,9 +15,7 @@ namespace TP_5_Final
         }
 
         public int NumeroIdentificacion { get; set; }
-        // public String Descripcion { get; set; }
         public decimal Peso { get; set; }
-        public String CartaDePorte { get; set; }
 
     }
 }

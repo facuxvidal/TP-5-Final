@@ -21,11 +21,11 @@ namespace TP_5_Final
         public int NumeroOrdenServicio { get; set; }
         public DateTime Fecha { get; set; }
         public String TipoDeRetiro { get; set; }
-        public String TipoDeEntrega { get; set; } // Entrega/Retiro en puerta o en sucursal. Codear "Elegir Tipo de Servicio"
+        public String TipoDeEntrega { get; set; }
         public String Destino { get; set; }
         public String Origen { get; set; }
 
-        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado)
+        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado, string origen, string destino)
         {
             string path = Path.GetFullPath("..\\..\\..\\OrdenesDeServicio.txt");
             FileInfo FI = new FileInfo(path);
@@ -43,14 +43,16 @@ namespace TP_5_Final
                                                                 EsPrioridad = bool.Parse(valores_orden[1]), 
                                                                 FechaCreacion = DateTime.Parse(valores_orden[2]),
                                                                 FechaEntrega = DateTime.Parse(valores_orden[3]),
-                                                                Estado = valores_orden[4]
+                                                                Estado = valores_orden[4],
+                                                                Origen = valores_orden[5],
+                                                                Destino = valores_orden[6]
                     });
                     contador_lineas++;
                 }
             }
             SR.Close();
 
-            OrdenDeServicio orden = new OrdenDeServicio(nro_orden_servicio, es_prioridad, fecha_creacion, fecha_entrega.AddDays(7), "En curso");
+            OrdenDeServicio orden = new OrdenDeServicio(nro_orden_servicio, es_prioridad, fecha_creacion, fecha_entrega.AddDays(7), estado, origen, destino);
             OrdenesDeServicio.Add(orden);
 
             StreamWriter SW = new StreamWriter(path);

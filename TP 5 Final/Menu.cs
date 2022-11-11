@@ -169,9 +169,31 @@ namespace TP_5_Final
             return opcion_elegida;
         }
        
-        public static void MostrarConsutaSeguimiento()
+        public static string MostrarConsutaSeguimiento()
         {
+            string numero_orden = "";
+            bool bandera = true;
+            while (bandera)
+            {
+                Console.WriteLine("------------------------------------\nIngrese el Numero de Orden De Servicio que desea consultar:");
+                numero_orden = Console.ReadLine();
 
+                if (String.IsNullOrEmpty(numero_orden))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Ingrese un número.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else if (!ValidaEntero(numero_orden))
+                {
+                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado.");
+                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                }
+                else
+                {
+                    bandera = false;
+                }
+            }
+            return numero_orden;
         }
         
         public static bool MostrarConsultaUrgencia()
@@ -227,80 +249,6 @@ namespace TP_5_Final
                 return rsp;
             }
         }
-       
-        public static string MostrarConsultaSucursales(string accion)
-        {
-            List<string> opciones_validas = new List<string>();
-            opciones_validas.Add("1");
-            opciones_validas.Add("2");
-            opciones_validas.Add("3");
-            opciones_validas.Add("4");
-            opciones_validas.Add("5");
-
-            string opcion_elegida = "";
-            bool bandera = true;
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\nIngrese un número dependiendo de la sucursal donde desea {accion.ToLower()} su pedido\n------------------------------------");
-                Console.WriteLine("[1] VIEDMA\n[2] CORDOBA\n[3] RESISTENCIA\n[4] CABA \n[5] AGENTE OFICIAL EXTERNO");
-                opcion_elegida = Console.ReadLine();
-
-                if (String.IsNullOrEmpty(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!ValidaEntero(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!opciones_validas.Contains(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-
-            string rsp;
-            switch (opcion_elegida)
-            {
-                case "1":
-                    {
-                        rsp = $"{accion} en Sucursal de VIEDMA";
-                        break;
-                    }
-                case "2":
-                    {
-                        rsp = $"{accion} en Sucursal de CORDOBA";
-                        break;
-                    }
-                case "3":
-                    {
-                        rsp = $"{accion} en Sucursal de RESISTENCIA";
-                        break;
-                    }
-                case "4":
-                    {
-                        rsp = $"{accion} en Sucursal de CABA";
-                        break;
-                    }
-                case "5":
-                    {
-                        rsp = $"{accion} en Agente oficial externo";
-                        break;
-                    }
-                default:
-                    rsp = "Sin Identificar";
-                    break;
-            }
-            return rsp;
-        }
-
 
         public static List<DateTime> MostrarConsultaFechas()
         {
@@ -833,9 +781,9 @@ namespace TP_5_Final
             return rsp;
         }
 
-        public static string MostrarResumenPedido(int cantidad_encomiendas, decimal tarifa, string origen, string destino, int numero_pedido)
+        public static string MostrarResumenPedido(int cantidad_encomiendas, decimal tarifa, string origen, string destino)
         {
-            Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO N°{numero_pedido}");
+            Console.WriteLine($"------------------------------------\nRESUMEN DEL PEDIDO");
 
             if (cantidad_encomiendas == 1)
             {

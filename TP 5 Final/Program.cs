@@ -107,7 +107,7 @@ namespace TP_5_Final
                         solicitud.TipoDeRetiro = retiro_o_entrega_origen;
                         if (retiro_o_entrega_origen == "A domicilio")
                         {
-                            // Aca estoy pidiendo que lo pasen a buscar por mi casa
+                            // Pidiendo que lo pasen a buscar por casa
                             retiro_domicilio = true;
                             direccion_origen = Menu.MostrarConsultaDireccionNacional("ORIGEN");
                             origen = $"{direccion_origen}, {localidad_origen.ToUpper()}, {provincia_origen}";
@@ -272,13 +272,13 @@ namespace TP_5_Final
                         Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion);
 
                         // Muestra resumen y pide confirmación
-                        string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino, solicitud.NumeroOrdenServicio);
+                        string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);
                         if (confirmacion == "1")
                         {
-                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso");
+                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso", solicitud.Origen, solicitud.Destino);
                             Factura factura = new Factura();
                             factura.GenerarFactura(tarifa.MontoTotal, contador_encomiendas, cliente.CUIT);
-                            Console.WriteLine("------------------------------------\n¡SE HA GENERADO UN NUEVO PEDIDO/ORDEN DE SERVICIO, MUCHAS GRACIAS POR UTILIZAR NUESTRO SISTEMA!");
+                            Console.WriteLine($"------------------------------------\n¡SE HA GENERADO UN NUEVO PEDIDO CON N°ORDEN DE SERVICIO: {orden.NumeroOrden}, MUCHAS GRACIAS POR UTILIZAR NUESTRO SISTEMA!");
                         }
                         else
                         {
@@ -286,51 +286,36 @@ namespace TP_5_Final
                             string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
                             if (rsp_consulta_salir == "1")
                             {
-                                Console.WriteLine("------------------------------------\nMuchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
-                                Console.WriteLine("Presione [Enter] para salir");
-                                Console.ReadLine();
-                                System.Environment.Exit(0);
-                            }
-                        }
-                    }
-
-                    else if (rsp_principal == "2")
-                    {
-                        // PEDIR FECHA INICIO Y FIN
-                        List<DateTime> fecha_a_consultar = Menu.MostrarConsultaFechas();
-                        Factura.ConsultarFacturas(cliente, fecha_a_consultar);
-                        Console.ReadLine();
-
-                        // MUESTRA FACTURAS DENTRO DE ESAS FECHAS CON LA INFO DE C/U. (FECHA, TOTAL, PAGO/IMPAGO)
-
-
-                        // ESTADO GENERAL DE LA CUENTA
-                        CuentaCliente saldo_cliente = new CuentaCliente();
-                        string rsp_consulta_saldo = saldo_cliente.ConsultarSaldo(cliente);
-                        if (rsp_consulta_saldo != "") // Si es diferente de "", preguntamos si quiere salir
-                        {
-                            Console.WriteLine(rsp_consulta_saldo);
-                            string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
-                            if (rsp_consulta_salir == "1")
-                            {
+                                vuelvo_atras = false;
+                                Console.WriteLine("Hasta luego!");
                                 Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
                                 Console.WriteLine("Presione [Enter] para salir");
                                 Console.ReadLine();
-                                System.Environment.Exit(0);
                             }
                         }
-                        /*else
+                    }
+                    else if (rsp_principal == "2")
+                    {
+                        // Pedimos fechas para consultar facturas creadas en ese periodo de fechas
+                        List<DateTime> fecha_a_consultar = Menu.MostrarConsultaFechas();
+                        Factura.ConsultarFacturas(cliente, fecha_a_consultar);
+                        // Mostramos estado general de la cuenta
+                        Factura.ConsultarSaldo(cliente, fecha_a_consultar);
+                        string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
+                        if (rsp_consulta_salir == "1")
                         {
+                            vuelvo_atras = false;
+                            Console.WriteLine("Hasta luego!");
                             Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
                             Console.WriteLine("Presione [Enter] para salir");
                             Console.ReadLine();
-                        }*/
+                        }
                     }
                     else if (rsp_principal == "3")
                     {
                         // Mostrar estado de pedido ingresando un numero, buscando en txt
-
-
+                        string numero_orden = Menu.MostrarConsutaSeguimiento();
+                        OrdenDeServicio.ConsultarSeguimiento(numero_orden);
                         // Si numero pedido es erróneo, debe consultarte si querés salir.
                         string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
                         if (rsp_consulta_salir == "1")
@@ -341,8 +326,6 @@ namespace TP_5_Final
                             Console.ReadLine();
                             Environment.Exit(0);
                         }
-
-
                     }
                     else if (rsp_principal == "4")
                     {
