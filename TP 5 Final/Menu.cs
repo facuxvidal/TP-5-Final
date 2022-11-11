@@ -176,7 +176,7 @@ namespace TP_5_Final
             while (bandera)
             {
                 Console.WriteLine("------------------------------------\nIngrese el Numero de Orden De Servicio que desea consultar:");
-                numero_orden = Console.ReadLine();
+                numero_orden = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(numero_orden))
                 {
