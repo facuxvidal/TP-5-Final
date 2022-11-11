@@ -50,6 +50,7 @@ namespace TP_5_Final
             }
             return opcion_elegida;
         }
+        
         public static string MostrarConsultaEncomiendas()
         {
             List<string> encomiendas_habilitadas = new List<string>();
@@ -88,6 +89,7 @@ namespace TP_5_Final
             }
             return encomiendas;
         }
+        
         public static string MostrarConsutaPeso(int encomiendas)
         {
             List<string> opciones_validas = new List<string>();
@@ -128,6 +130,7 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
+        
         public static string MostrarConsultaDeseaSalir()
         {
             List<string> opciones_validas = new List<string>();
@@ -165,10 +168,12 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
+       
         public static void MostrarConsutaSeguimiento()
         {
 
         }
+        
         public static bool MostrarConsultaUrgencia()
         {
             {
@@ -222,6 +227,7 @@ namespace TP_5_Final
                 return rsp;
             }
         }
+       
         public static string MostrarConsultaSucursales(string accion)
         {
             List<string> opciones_validas = new List<string>();
@@ -295,6 +301,50 @@ namespace TP_5_Final
             return rsp;
         }
 
+
+        public static List<DateTime> MostrarConsultaFechas()
+        {
+            List<DateTime> fechas = new List<DateTime>();
+            bool bandera_desde = true;
+            bool bandera_hasta = true;
+
+            Console.WriteLine("------------------------------------\nPara ver el historial de Facturas, ingrese el periodo de fechas que quiera consultar.");
+            
+            while (bandera_desde)
+            {
+                Console.WriteLine("------------------------------------\nIngresar Fecha Desde (DD/MM/YYYY):");
+                string fecha_desde = Console.ReadLine().Trim();
+                try
+                {
+                    DateTime fecha_desde_ok = DateTime.ParseExact(fecha_desde, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    fechas.Add(fecha_desde_ok);
+                    bandera_desde = false;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Por favor ingresar una fecha valida rspetando el formato 'DD/MM/YYYY'");
+                    continue;
+                }
+            }
+            
+            while (bandera_hasta)
+            {
+                Console.WriteLine("------------------------------------\nIngresar Fecha Hasta (DD/MM/YYYY):");
+                string fecha_hasta = Console.ReadLine().Trim();
+                try
+                {
+                    DateTime fecha_hasta_ok = DateTime.ParseExact(fecha_hasta, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    fechas.Add(fecha_hasta_ok);
+                    bandera_hasta = false;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("------------------------------------\nERROR - Por favor ingresar una fecha valida rspetando el formato 'DD/MM/YYYY'");
+                    continue;
+                }
+            }
+            return fechas;
+        }
 
         public static string MostrarConsultaProvincia(string ubicacion)
         {
@@ -485,7 +535,6 @@ namespace TP_5_Final
         
         public static string MostrarConsultaLocalidadXProvincia(string provincia)
         {
-            //var localidades = JsonConvert.DeserializeObject<Dictionary<string, string>>("{'CABA': 'CONSTITUCION|MONSERRAT|PUERTO MADERO|RETIRO|SAN TELMO|SAN NICOLAS|RECOLETA|BALVANERA|SAN CRISTOBAL|BARRACAS|BOCA|NUEVA POMPEYA|PARQUE PATRICIOS|ALMAGRO|BOEDO|CABALLITO|FLORES|PARQUE CHACABUCO|VILLA LUGANO|VILLA RIACHUELO|VILLA SOLDATI|LINIERS|MATADEROS|PARQUE AVELLANEDA|FLORESTA|MONTE CASTRO|VELEZ SARSFIELD|VERSALLES|VILLA LURO|VILLA REAL|VILLA DEL PARQUE|VILLA DEVOTO|VILLA GENERAL MITRE|VILLA SANTA RITA|COGHLAN|SAAVEDRA|VILLA PUEYRREDON|VILLA URQUIZA|BELGRANO|COLEGIALES|NUÑEZ|PALERMO|AGRONOMIA|CHACARITA|PARQUE CHAS|PATERNAL|VILLA CRESPO|VILLA ORTUZAR','BUENOS AIRES': 'Alberti|Almirante Brown|Avellaneda|Ayacucho|Azul|Bahía Blanca|Balcarce|Baradero|Arrecifes|Benito Juárez|Berazategui|Berisso|Bolívar|Bragado|Brandsen|Campana|Cañuelas|Capitán Sarmiento|Carlos Casares|Carlos Tejedor|Carmen de Areco|Castelli|Colón|Coronel de Marina Leonardo Rosales|Coronel Dorrego|Coronel Pringles|Chacabuco|Chascomús|Chivilcoy|Daireaux|Dolores|Ensenada|Escobar|Esteban Echeverría|Exaltación de la Cruz|José M. Ezeiza|Florencio Varela|Florentino Ameghino|General Alvarado|General Arenales|General Guido|General Juan Madariaga|General La Madrid|General Las Heras|General Lavalle|General Paz|General Pinto|General Pueyrredón|General Rodríguez|Ciudad Libertador San Martín|General Viamonte|General Villegas|Guaminí|Hipólito Yrigoyen|Hurlingham|Ituzaingó|José C. Paz|Junín|La Costa|La Matanza|Lanús|La Plata|Laprida|Las Flores|Leandro N. Alem|Lincoln|Lobería|Lobos|Lomas de Zamora|Luján|Magdalena|Maipú|Malvinas Argentinas|Mar Chiquita|Marcos Paz|Mercedes|Merlo|Monte|Moreno|Morón|Navarro|Necochea|9 de Julio|Olavarría|Patagones|Pehuajó|Pellegrini|Pergamino|Pila|Pilar|Pinamar|Presidente Perón|Puán|Punta Indio|Quilmes|Ramallo|Rauch|Rivadavia|Rojas|Roque Pérez|Saavedra|Saladillo|Salto|Salliqueló|Andrés de Giles|San Antonio de Areco|San Cayetano|San Fernando|San Isidro|San Nicolás|San Pedro|San Vicente|Suipacha|Tandil|Tapalqué|Tigre|Tordillo|Tornquist|Trenque Lauquen|Tres Arroyos|Tres de Febrero|Tres Lomas|25 de Mayo|Vicente López|Villa Gesell|Villarino|Zárate','CATAMARCA': 'Ambato|Ancasti|Andalgalá|Antofagasta de la Sierra|Belén|Capayán|San Fernando del Valle de Catamarca|El Alto|Fray Mamerto Esquiú|La Paz|Paclín|Pomán|Santa María|Santa Rosa|Tinogasta|Valle Viejo','CORDOBA': 'Calamuchita|Cordoba|Colón|Cruz del Eje|General Roca|General San Martín|Ischilín|Juárez Celman|Marcos Juárez|Minas|Pocho|Presidente Roque Sáenz Peña|Punilla|Río Cuarto|Río Primero|Río Seco|Río Segundo|San Alberto|San Javier|San Justo|Santa María|Sobremonte|Tercero Arriba|Totoral|Tulumba|Unión|Bella Vista','CORRIENTES': 'Berón de Astrada|Corrientes|Concepción|Curuzu Cuatia|Empedrado|Esquina|General Alvear|General Paz|Goya|Itatí|Ituzaingó|Lavalle|Mburucuyá|Mercedes|Monte Caseros|Paso de los Libres|Saladas|San Cosme|San Luis del Palmar|San Martín|San Miguel|San Roque|Santo Tomé|Sauce','CHACO': 'Almirante Brown|Bermejo|Comandante Fernández|Chacabuco|12 de Octubre|2 de Abril|Fray Justo Santa María de Oro|General Belgrano|General Donovan|General Güemes|Independencia|Libertad|Libertador General San Martín|Maipú|Mayor Luis J. Fontana|9 de Julio|O Higgins| Presidencia de la Plaza| 1ro de Mayo|Quitilipi|San Fernando|San Lorenzo|Sargento Cabral|Tapenagá|25 de Mayo','CHUBUT': 'Biedma|Cushamen|Escalante|Florentino Ameghino|Futaleufú|Gaiman|Gastre|Languiñeo|Mártires|Paso de Indios|Rawson|Río Senguer|Sarmiento|Tehuelches|Telsen','ENTRE RIOS': 'Colón|Concordia|Diamante|Federación|Federal|Feliciano|Gualeguay|Gualeguaychú|Islas del Ibicuy|La Paz|Nogoyá|Paraná|San Salvador|Tala|Uruguay|Victoria|Villaguay','FORMOSA': 'Bermejo|Formosa|Laishí|Matacos|Patiño|Pilagás|Pilcomayo|Pirané|Ramón Lista','JUJUY': 'Cochinoca|El Carmen|Dr. Manuel Belgrano|Humahuaca|Ledesma|Palpalá|Rinconada|San Antonio|San Pedro|Santa Bárbara|Santa Catalina|Susques|Tilcara|Tumbaya|Valle Grande|Yaví','LA PAMPA': 'Atreucó|Caleu Caleu|La Pampa|Catriló|Conhelo|Curacó|Chalileo|Chapaleufú|Chical Co|Guatraché|Hucal|Lihuel Calel|Limay Mahuida|Loventué|Maracó|Puelén|Quemú Quemú|Rancul|Realicó|Toay|Trenel|Utracán','LA RIOJA': 'Arauco|La Rioja|Castro Barros|Coronel Felipe Varela|Chamical|Chilecito|Famatina|General Ángel V. Peñaloza|General Belgrano|General Juan F. Quiroga|General Lamadrid|General Ocampo|General San Martín|Vinchina|Independencia|Rosario Vera Peñaloza|San Blas de Los Sauces|Sanagasta','MENDOZA': 'Mendoza|General Alvear|Godoy Cruz|Guaymallén|Junín|La Paz|Las Heras|Lavalle|Luján de Cuyo|Maipú|Malargüe|Rivadavia|San Carlos|San Martín|San Rafael|Santa Rosa|Tunuyán|Tupungato','MISIONES': 'Apóstoles|Cainguás|Candelaria|Misiones|Concepción|Eldorado|General Manuel Belgrano|Guaraní|Iguazú|Leandro N. Alem|Libertador General San Martín|Montecarlo|Oberá|San Ignacio|San Javier|25 de Mayo','NEUQUEN': 'Aluminé|Añelo|Catán Lil|Collón Curá|Confluencia|Chos Malal|Huiliches|Lácar|Loncopué|Los Lagos|Minas|Ñorquín|Pehuenches|Picún Leufú|Picunches|Zapala','RIO NEGRO': 'Adolfo Alsina|Avellaneda|Bariloche|Conesa|El Cuy|General Roca|9 de julio|Ñorquinco|Pichi Mahuida|Pilcaniyeu|San Antonio|Valcheta|25 de Mayo','SALTA': 'Anta|Cachi|Cafayate|Salta|Cerrillos|Chicoana|General Güemes|General José de San Martín|Guachipas|Iruya|La Caldera|La Candelaria|La Poma|La Viña|Los Andes|Metán|Molinos|Orán|Rivadavia|Rosario de la Frontera|Rosario de Lerma|San Carlos|Santa Victoria','SAN JUAN': 'Albardón|Angaco|Calingasta|Caucete|Chimbas|Iglesia|Jáchal|9 de Julio|Pocito|Rawson|Rivadavia|San Martín|Santa Lucía|Sarmiento|Ullum|Valle Fértil|25 de Mayo|Zonda','SAN LUIS': 'Ayacucho|Belgrano|Coronel Pringles|Chacabuco|General Pedernera|Gobernador Dupuy|Junín|Juan Martín de Pueyrredón|Libertador General San Martín','SANTA CRUZ': 'Corpen Aike|Deseado|Güer Aike|Lago Argentino|Lago Buenos Aires|Magallanes|Río Chico','SANTA FE': 'Belgrano|Caseros|Castellanos|Villa Constitución|Garay|General López|General Obligado|Iriondo|La Capital|Las Colonias|9 de Julio|Rosario|San Cristóbal|San Javier|San Jerónimo|San Justo|San Lorenzo|San Martín|Vera','SANTIAGO DEL ESTERO': 'Aguirre|Alberdi|Atamisqui|Avellaneda|Banda|Belgrano|Santiago del Estero|Copo|Choya|Figueroa|General Taboada|Guasayán|Jiménez|Juan F. Ibarra|Loreto|Mitre|Moreno|Ojo de Agua|Pellegrini|Quebrachos|Río Hondo|Rivadavia|Robles|Salavina|San Martín|Sarmiento|Silípica','TUCUMAN': 'Burruyacú|Cruz Alta|Chicligasta|Famaillá|Graneros|Juan Bautista Alberdi|La Cocha|Leales|Lules|Monteros|Río Chico|Simoca|Tafí del Valle|Tafí Viejo|Trancas|Yerba Buena','TIERRA DEL FUEGO': 'Río Grande|Ushuaia'}");
             string localidades_por_provincia = Path.GetFullPath("..\\..\\..\\LocalidadesXProvincia.txt");
             FileInfo FI = new FileInfo(localidades_por_provincia);
             StreamReader SR = FI.OpenText();
@@ -497,7 +546,6 @@ namespace TP_5_Final
             {
                 SR.ReadLine();
                 var localidades = lineas[contador_lineas].Split('|');
-                //contador_lineas++;
                 if (localidades[0] == provincia)
                 {
                     List<string> opciones_validas = new List<string>();
@@ -575,6 +623,7 @@ namespace TP_5_Final
             }
             return direccion_origen;
         }
+        
         public static string MostrarConsultaRetiroEntrega(string opcion1, string opcion2, string tipo_de_envio)
         {
             List<string> opciones_validas = new List<string>();
@@ -676,6 +725,7 @@ namespace TP_5_Final
             }
             return rsp;
         }
+       
         public static string MostrarConsultaRegionInternacional()
         {
             List<string> opciones_validas = new List<string>();
@@ -745,6 +795,7 @@ namespace TP_5_Final
             }
             return rsp;
         }
+       
         public static string MostrarConsultaDireccionInternacional()
         {
             string direccion_destino = "";
@@ -799,7 +850,7 @@ namespace TP_5_Final
             opciones_validas.Add("1");
             opciones_validas.Add("2");
 
-            string opcion_elegida;
+            string opcion_elegida = "";
             bool bandera = true;
             while (bandera)
             {

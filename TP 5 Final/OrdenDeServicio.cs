@@ -8,6 +8,10 @@ namespace TP_5_Final
 {
     public class OrdenDeServicio
     {
+        public OrdenDeServicio()
+        {
+
+        }
         public OrdenDeServicio(int numeroOrden, bool esPrioridad, DateTime fechaCreacion, DateTime fechaEntrega, string estado)
         {
             NumeroOrden = numeroOrden;
@@ -26,6 +30,12 @@ namespace TP_5_Final
         public void ConsultarSeguimiento()
         {
 
+        }
+
+
+        public string ToFormat()
+        {
+            return string.Format("{0}|{1}|{2}|{3}|{4}", NumeroOrden, EsPrioridad, FechaCreacion, FechaEntrega, Estado);
         }
     }
 }
