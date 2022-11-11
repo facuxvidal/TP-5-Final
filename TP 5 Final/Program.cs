@@ -283,35 +283,48 @@ namespace TP_5_Final
                         else
                         {
                             Console.WriteLine("------------------------------------\n¡HA CANCELADO EL REGISTRO DE NUEVO PEDIDO!");
+                            string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
+                            if (rsp_consulta_salir == "1")
+                            {
+                                Console.WriteLine("------------------------------------\nMuchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                                Console.WriteLine("Presione [Enter] para salir");
+                                Console.ReadLine();
+                                System.Environment.Exit(0);
+                            }
                         }
                     }
+
                     else if (rsp_principal == "2")
                     {
                         // PEDIR FECHA INICIO Y FIN
                         List<DateTime> fecha_a_consultar = Menu.MostrarConsultaFechas();
                         Factura.ConsultarFacturas(cliente, fecha_a_consultar);
                         Console.ReadLine();
+
                         // MUESTRA FACTURAS DENTRO DE ESAS FECHAS CON LA INFO DE C/U. (FECHA, TOTAL, PAGO/IMPAGO)
 
 
                         // ESTADO GENERAL DE LA CUENTA
-                        //CuentaCliente saldo_cliente = new CuentaCliente();
-                        //string rsp_consulta_saldo = saldo_cliente.ConsultarSaldo(cliente);
-                        //if (rsp_consulta_saldo != "") // Si es diferente de "", preguntamos si quiere salir
-                        //{
-                        //    Console.WriteLine(rsp_consulta_saldo);
-                        //    string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
-                        //    if (rsp_consulta_salir == "1")
-                        //    {
-                        //        // Igualo las variables para forzar salir de la ejecucion del programa
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
-                        //    Console.WriteLine("Presione [Enter] para salir");
-                        //    Console.ReadLine();
-                        //}
+                        CuentaCliente saldo_cliente = new CuentaCliente();
+                        string rsp_consulta_saldo = saldo_cliente.ConsultarSaldo(cliente);
+                        if (rsp_consulta_saldo != "") // Si es diferente de "", preguntamos si quiere salir
+                        {
+                            Console.WriteLine(rsp_consulta_saldo);
+                            string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
+                            if (rsp_consulta_salir == "1")
+                            {
+                                Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                                Console.WriteLine("Presione [Enter] para salir");
+                                Console.ReadLine();
+                                System.Environment.Exit(0);
+                            }
+                        }
+                        /*else
+                        {
+                            Console.WriteLine("Muchas gracias por utilizar nuestra aplicación! Esperamos verlo pronto!");
+                            Console.WriteLine("Presione [Enter] para salir");
+                            Console.ReadLine();
+                        }*/
                     }
                     else if (rsp_principal == "3")
                     {
