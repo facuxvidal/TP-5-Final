@@ -203,10 +203,11 @@ namespace TP_5_Final
                     Console.WriteLine($"------------------------------------\nSALDO DE CUENTA DE {cliente.Nombre} {cliente.Apellido} ENTRE {fecha_a_consultar[0].ToString().Substring(0, 10)} y {fecha_a_consultar[1].ToString().Substring(0, 10)}\n------------------------------------");
                     Console.WriteLine($"Facturacion Paga en Periodo: ${acumula_montos_pagos_en_periodo} \nFacturacion Impaga en Periodo: ${acumula_montos_impagos_en_periodo} \nServicios facturados en Periodo: {contador_pedidos_en_periodo}");
                 }
-
-                Console.WriteLine($"------------------------------------\nSALDO TOTAL DE CUENTA DE {cliente.Nombre} {cliente.Apellido}\n------------------------------------");
-                Console.WriteLine($"Total Facturacion Paga: ${acumula_montos_pagos} \nTotal Facturacion Impaga: ${acumula_montos_impagos} \nTotal Servicios facturados: {contador_pedidos}");
-
+                if (fecha_a_consultar[0] <= DateTime.Now)
+                {
+                    Console.WriteLine($"------------------------------------\nSALDO TOTAL DE CUENTA DE {cliente.Nombre} {cliente.Apellido}\n------------------------------------");
+                    Console.WriteLine($"Total Facturacion Paga: ${acumula_montos_pagos} \nTotal Facturacion Impaga: ${acumula_montos_impagos} \nTotal Servicios facturados: {contador_pedidos}");
+                }
             }
 
 

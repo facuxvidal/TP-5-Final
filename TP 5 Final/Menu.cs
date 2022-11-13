@@ -294,7 +294,7 @@ namespace TP_5_Final
             return fechas;
         }
 
-        /*public static string MostrarConsultaProvincia(string ubicacion)
+        /*public static string MostrarConsultaProvinciaVieja(string ubicacion)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
@@ -481,7 +481,7 @@ namespace TP_5_Final
             return rsp;
         }*/
 
-        public static string MostrarConsultaProvincia2(string ubicacion)
+        public static string MostrarConsultaProvincia(string ubicacion)
         {
             string provincia_por_provincia = Path.GetFullPath("..\\..\\..\\Provincias.txt");
             FileInfo FI = new FileInfo(provincia_por_provincia);
