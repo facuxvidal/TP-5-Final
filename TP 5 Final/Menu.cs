@@ -753,7 +753,7 @@ namespace TP_5_Final
             while (bandera)
             {
                 Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
-                Console.WriteLine("[1] A PAISES LIMITROFES\n[2] AMERICA DEL SUR\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
+                Console.WriteLine("[1] A PAISES LIMITROFES\n[2] AMERICA LATINA\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
                 opcion_elegida = Console.ReadLine();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
@@ -787,7 +787,7 @@ namespace TP_5_Final
                     }
                 case "2":
                     {
-                        rsp = $"AMERICA DEL SUR";
+                        rsp = $"AMERICA LATINA";
                         break;
                     }
                 case "3":
@@ -809,13 +809,83 @@ namespace TP_5_Final
             return rsp;
         }
 
+        public static string MostrarConsultaPaisInternacional(string region)
+        {
+            string paises_por_region = Path.GetFullPath("..\\..\\..\\PaisesXRegion.txt");
+            FileInfo FI = new FileInfo(paises_por_region);
+            StreamReader SR = FI.OpenText();
+            string[] lineas = File.ReadAllLines(paises_por_region);
+            int contador_lineas = 0;
+            string opcion_elegida = "";
+            string rsp = "";
+            while (!SR.EndOfStream)
+            {
+                SR.ReadLine();
+                var paises = lineas[contador_lineas].Split('|');
+                if (paises[0] == region)
+                {
+                    List<string> opciones_validas = new List<string>();
+                    int agrego_nueva_opcion = 0;
+                    foreach (string item in paises)
+                    {
+                        opciones_validas.Add($"{agrego_nueva_opcion}");
+                        agrego_nueva_opcion++;
+                    }
+
+                    bool bandera = true;
+                    while (bandera)
+                    {
+                        Console.WriteLine($"------------------------------------\nIngrese la localidad que corresponda: \n------------------------------------");
+                        int un_pais = 1;
+                        foreach (var item in paises)
+                        {
+                            if (agrego_nueva_opcion != un_pais)
+                            {
+                                Console.WriteLine($"[{un_pais}] {paises[un_pais]}");
+                                un_pais++;
+                            }
+                        }
+
+                        opcion_elegida = Console.ReadLine();
+                        if (String.IsNullOrEmpty(opcion_elegida))
+                        {
+                            Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                            Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                        }
+                        else if (!ValidaEntero(opcion_elegida))
+                        {
+                            Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                            Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                        }
+                        else if (!opciones_validas.Contains(opcion_elegida))
+                        {
+                            Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                            Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                        }
+                        else
+                        {
+                            bandera = false;
+                        }
+                    }
+                    rsp = paises[int.Parse(opcion_elegida)];
+                    break;
+                }
+                else
+                {
+                    contador_lineas++;
+                }
+            }
+            SR.Close();
+            return rsp;
+        }
+
         public static string MostrarConsultaDireccionInternacional()
         {
             string direccion_destino = "";
             bool bandera = true;
             while (bandera)
             {
-                Console.WriteLine($"------------------------------------\nIngrese la dirección de destino: 'Calle, Altura, Departamento, Ciudad y País' ");
+                Console.WriteLine($"------------------------------------\nIngrese la dirección de destino: 'Calle, Altura, Departamento y Ciudad' ");
                 direccion_destino = Console.ReadLine().Trim();
                 if (String.IsNullOrEmpty(direccion_destino))
                 {

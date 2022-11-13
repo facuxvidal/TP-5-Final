@@ -50,7 +50,7 @@ namespace TP_5_Final
                                         precio_bulto += decimal.Parse(tarifas[1]);
                                         break;
                                     }
-                                case "AMERICA DEL SUR":
+                                case "AMERICA LATINA":
                                     {
                                         precio_bulto += decimal.Parse(tarifas[2]);
                                         break;

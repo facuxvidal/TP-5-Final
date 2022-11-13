@@ -93,6 +93,7 @@ namespace TP_5_Final
                         string direccion_destino;
                         string region_internacional;
                         string direccion_internacional;
+                        string pais_internacional;
                         bool entrega_domicilio;
                         bool retiro_domicilio;
                         bool es_internacional;
@@ -229,8 +230,9 @@ namespace TP_5_Final
                             entrega_domicilio = true;
                             solicitud.TipoDeEntrega = "A domicilio";
                             region_internacional = Menu.MostrarConsultaRegionInternacional();
+                            pais_internacional = Menu.MostrarConsultaPaisInternacional(region_internacional);
                             direccion_internacional = Menu.MostrarConsultaDireccionInternacional();
-                            destino = $"{direccion_internacional}, {region_internacional}";
+                            destino = $"{direccion_internacional}, {pais_internacional}";
                             solicitud.Destino = destino;
                             ubicacion = region_internacional;
                         }
