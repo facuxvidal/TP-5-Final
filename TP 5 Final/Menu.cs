@@ -50,7 +50,7 @@ namespace TP_5_Final
             }
             return opcion_elegida;
         }
-        
+
         public static string MostrarConsultaEncomiendas()
         {
             List<string> encomiendas_habilitadas = new List<string>();
@@ -89,7 +89,7 @@ namespace TP_5_Final
             }
             return encomiendas;
         }
-        
+
         public static string MostrarConsutaPeso(int encomiendas)
         {
             List<string> opciones_validas = new List<string>();
@@ -130,7 +130,7 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
-        
+
         public static string MostrarConsultaDeseaSalir()
         {
             List<string> opciones_validas = new List<string>();
@@ -168,7 +168,7 @@ namespace TP_5_Final
 
             return opcion_elegida;
         }
-       
+
         public static string MostrarConsutaSeguimiento()
         {
             string numero_orden = "";
@@ -195,7 +195,7 @@ namespace TP_5_Final
             }
             return numero_orden;
         }
-        
+
         public static bool MostrarConsultaUrgencia()
         {
             {
@@ -257,7 +257,7 @@ namespace TP_5_Final
             bool bandera_hasta = true;
 
             Console.WriteLine("------------------------------------\nPara ver el historial de Facturas, ingrese el periodo de fechas que quiera consultar.");
-            
+
             while (bandera_desde)
             {
                 Console.WriteLine("------------------------------------\nIngresar Fecha Desde (DD/MM/YYYY):");
@@ -274,7 +274,7 @@ namespace TP_5_Final
                     continue;
                 }
             }
-            
+
             while (bandera_hasta)
             {
                 Console.WriteLine("------------------------------------\nIngresar Fecha Hasta (DD/MM/YYYY):");
@@ -294,7 +294,7 @@ namespace TP_5_Final
             return fechas;
         }
 
-        public static string MostrarConsultaProvincia(string ubicacion)
+        /*public static string MostrarConsultaProvincia(string ubicacion)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
@@ -479,8 +479,73 @@ namespace TP_5_Final
                     }
             }
             return rsp;
+        }*/
+
+        public static string MostrarConsultaProvincia2(string ubicacion)
+        {
+            string provincia_por_provincia = Path.GetFullPath("..\\..\\..\\Provincias.txt");
+            FileInfo FI = new FileInfo(provincia_por_provincia);
+            StreamReader SR = FI.OpenText();
+            string[] lineas = File.ReadAllLines(provincia_por_provincia);
+            int contador_lineas = 0;
+            string opcion_elegida = "";
+            string rsp = "";
+            while (!SR.EndOfStream)
+            {
+                SR.ReadLine();
+                var provincias = lineas[contador_lineas].Split('|');
+                List<string> opciones_validas = new List<string>();
+                int agrego_nueva_opcion = 0;
+                foreach (string item in provincias)
+                {
+                    opciones_validas.Add($"{agrego_nueva_opcion}");
+                    agrego_nueva_opcion++;
+                }
+
+                bool bandera = true;
+                while (bandera)
+                {
+                    Console.WriteLine($"------------------------------------\nIngrese un número segun la Provincia de {ubicacion} que corresponda:  ");
+                    ;
+                    int una_provincia = 1;
+                    foreach (var item in provincias)
+                    {
+                        if (agrego_nueva_opcion != una_provincia)
+                        {
+                            Console.WriteLine($"[{una_provincia}] {provincias[una_provincia]}");
+                            una_provincia++;
+                        }
+                    }
+
+                    opcion_elegida = Console.ReadLine().Trim();
+                    if (String.IsNullOrEmpty(opcion_elegida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else if (!ValidaEntero(opcion_elegida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else if (!opciones_validas.Contains(opcion_elegida))
+                    {
+                        Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
+                    }
+                    else
+                    {
+                        bandera = false;
+                    }
+                }
+                rsp = provincias[int.Parse(opcion_elegida)];
+                break;
+
+            }
+            SR.Close();
+            return rsp;
         }
-        
+
         public static string MostrarConsultaLocalidadXProvincia(string provincia)
         {
             string localidades_por_provincia = Path.GetFullPath("..\\..\\..\\LocalidadesXProvincia.txt");
@@ -517,7 +582,7 @@ namespace TP_5_Final
                                 una_localidad++;
                             }
                         }
-                        
+
                         opcion_elegida = Console.ReadLine();
                         if (String.IsNullOrEmpty(opcion_elegida))
                         {
@@ -550,7 +615,7 @@ namespace TP_5_Final
             SR.Close();
             return rsp;
         }
-        
+
         public static string MostrarConsultaDireccionNacional(string tipo_de_direccion)
         {
             string direccion_origen = "";
@@ -571,7 +636,7 @@ namespace TP_5_Final
             }
             return direccion_origen;
         }
-        
+
         public static string MostrarConsultaRetiroEntrega(string opcion1, string opcion2, string tipo_de_envio)
         {
             List<string> opciones_validas = new List<string>();
@@ -673,7 +738,7 @@ namespace TP_5_Final
             }
             return rsp;
         }
-       
+
         public static string MostrarConsultaRegionInternacional()
         {
             List<string> opciones_validas = new List<string>();
@@ -743,7 +808,7 @@ namespace TP_5_Final
             }
             return rsp;
         }
-       
+
         public static string MostrarConsultaDireccionInternacional()
         {
             string direccion_destino = "";

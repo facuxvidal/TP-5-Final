@@ -100,7 +100,7 @@ namespace TP_5_Final
 
                         Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                         // Consulta direcion de Entrega o Retiro de ORIGEN
-                        string provincia_origen = Menu.MostrarConsultaProvincia("ORIGEN");
+                        string provincia_origen = Menu.MostrarConsultaProvincia2("ORIGEN");
                         string localidad_origen = Menu.MostrarConsultaLocalidadXProvincia(provincia_origen);
 
                         string retiro_o_entrega_origen = Menu.MostrarConsultaRetiroEntrega("En sucursal", "A domicilio", "Recoleccion");
@@ -172,7 +172,7 @@ namespace TP_5_Final
                             if (retiro_o_entrega_destino == "A domicilio")
                             {
                                 entrega_domicilio = true;
-                                provincia_destino = Menu.MostrarConsultaProvincia("DESTINO");
+                                provincia_destino = Menu.MostrarConsultaProvincia2("DESTINO");
                                 localidad_destino = Menu.MostrarConsultaLocalidadXProvincia(provincia_destino);
                                 direccion_destino = Menu.MostrarConsultaDireccionNacional("DESTINO");
                                 destino = $"{direccion_destino}, {localidad_destino.ToUpper()}, {provincia_destino}";
@@ -181,7 +181,7 @@ namespace TP_5_Final
                             else
                             {
                                 entrega_domicilio = false;
-                                provincia_destino = Menu.MostrarConsultaProvincia("DESTINO");
+                                provincia_destino = Menu.MostrarConsultaProvincia2("DESTINO");
                                 localidad_destino = Menu.MostrarConsultaLocalidadXProvincia(provincia_destino);
                                 if (provincia_destino != "CHACO" && provincia_destino != "RIO NEGRO" && provincia_destino != "CORDOBA" && provincia_destino != "CABA" && provincia_destino != "BUENOS AIRES")
                                 {
