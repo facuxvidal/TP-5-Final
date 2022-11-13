@@ -12,7 +12,7 @@ namespace TP_5_Final
     {
         List<OrdenDeServicio> OrdenesDeServicio = new List<OrdenDeServicio>();
 
-        public SolicitudDeServicio(int numeroOrdenServicio, DateTime fecha)
+        public SolicitudDeServicio(int numeroOrdenServicio, DateTime fecha, string cuit)
         {
             NumeroOrdenServicio = numeroOrdenServicio;
             Fecha = fecha;
@@ -25,7 +25,7 @@ namespace TP_5_Final
         public String Destino { get; set; }
         public String Origen { get; set; }
 
-        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado, string origen, string destino)
+        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado, string origen, string destino, string cuit)
         {
             string path = Path.GetFullPath("..\\..\\..\\OrdenesDeServicio.txt");
             FileInfo FI = new FileInfo(path);
@@ -52,7 +52,7 @@ namespace TP_5_Final
             }
             SR.Close();
 
-            OrdenDeServicio orden = new OrdenDeServicio(nro_orden_servicio, es_prioridad, fecha_creacion, fecha_entrega.AddDays(7), estado, origen, destino);
+            OrdenDeServicio orden = new OrdenDeServicio(nro_orden_servicio, es_prioridad, fecha_creacion, fecha_entrega.AddDays(7), estado, origen, destino, cuit);
             OrdenesDeServicio.Add(orden);
 
             StreamWriter SW = new StreamWriter(path);

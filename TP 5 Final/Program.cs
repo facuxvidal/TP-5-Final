@@ -29,7 +29,7 @@ namespace TP_5_Final
                     if (rsp_principal == "1")
                     {
                         Random numero_orden_servicio = new Random();
-                        SolicitudDeServicio solicitud = new SolicitudDeServicio(numero_orden_servicio.Next(), DateTime.Now.Date);
+                        SolicitudDeServicio solicitud = new SolicitudDeServicio(numero_orden_servicio.Next(), DateTime.Now.Date, cliente.CUIT.ToString());
                         List<EncomiendaCorrespondencia> encomiendas = new List<EncomiendaCorrespondencia>();
 
                         decimal peso = 0;
@@ -275,7 +275,7 @@ namespace TP_5_Final
                         string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);
                         if (confirmacion == "1")
                         {
-                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso", solicitud.Origen, solicitud.Destino);
+                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso", solicitud.Origen, solicitud.Destino, cliente.CUIT.ToString());
                             Factura factura = new Factura();
                             factura.GenerarFactura(tarifa.MontoTotal, contador_encomiendas, cliente.CUIT);
                             Console.WriteLine($"------------------------------------\n¡SE HA GENERADO UN NUEVO PEDIDO CON N°ORDEN DE SERVICIO: {orden.NumeroOrden}, MUCHAS GRACIAS POR UTILIZAR NUESTRO SISTEMA!");
@@ -315,7 +315,7 @@ namespace TP_5_Final
                     {
                         // Mostrar estado de pedido ingresando un numero, buscando en txt
                         string numero_orden = Menu.MostrarConsutaSeguimiento();
-                        OrdenDeServicio.ConsultarSeguimiento(numero_orden);
+                        OrdenDeServicio.ConsultarSeguimiento(numero_orden, cliente.CUIT.ToString());
                         // Si numero pedido es erróneo, debe consultarte si querés salir.
                         string rsp_consulta_salir = Menu.MostrarConsultaDeseaSalir();
                         if (rsp_consulta_salir == "1")
