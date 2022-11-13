@@ -25,7 +25,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine("------------------------------------\nIngrese un numero de acuerdo a la accion que necesita realizar");
                 Console.WriteLine("[1] Solicitar servicio \n[2] Consultar estado de cuenta \n[3] Consultar seguimiento del pedido \n[4] Salir");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -65,7 +65,7 @@ namespace TP_5_Final
             while (bandera)
             {
                 Console.WriteLine("------------------------------------\nIngrese la cantidad de Encomiendas o Correspondencia que desee enviar en su pedido:");
-                encomiendas = Console.ReadLine();
+                encomiendas = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(encomiendas))
                 {
@@ -105,7 +105,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine($"------------------------------------\nIngrese un numero de acuerdo al peso del encomienda/correspondencia N° {encomiendas + 1}\n------------------------------------");
                 Console.WriteLine("[1] Menor o igual a 500gr \n[2] Mayor a 500gr y hasta 10 kg \n[3] Hasta 20 kg \n[4] Hasta 30 kg \n[5] Mayor");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -143,7 +143,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine($"------------------------------------\n¿Desea salir?\n------------------------------------");
                 Console.WriteLine("[1] Si \n[2] No");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -209,7 +209,7 @@ namespace TP_5_Final
                 {
                     Console.WriteLine("------------------------------------\nPor favor responder correctamente: ¿Es urgente el envio de este pedido? Ingrese el número segén corresponda");
                     Console.WriteLine("[1] Si \n[2] No");
-                    opcion_elegida = Console.ReadLine();
+                    opcion_elegida = Console.ReadLine().Trim();
 
                     if (String.IsNullOrEmpty(opcion_elegida))
                     {
@@ -583,7 +583,7 @@ namespace TP_5_Final
                             }
                         }
 
-                        opcion_elegida = Console.ReadLine();
+                        opcion_elegida = Console.ReadLine().Trim();
                         if (String.IsNullOrEmpty(opcion_elegida))
                         {
                             Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
@@ -649,7 +649,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine($"------------------------------------\nIngrese un número según la opción de {tipo_de_envio} que desee:\n------------------------------------");
                 Console.WriteLine($"[1] {opcion1} \n[2] {opcion2}");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -701,7 +701,7 @@ namespace TP_5_Final
             while (bandera)
             {
                 Console.WriteLine("------------------------------------\n¿Desea enviar su encomienda/correspondencia dentro de Argentina?: \n[1] Si \n[2] No");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
                     Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
@@ -754,7 +754,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
                 Console.WriteLine("[1] A PAISES LIMITROFES\n[2] AMERICA LATINA\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
@@ -846,7 +846,7 @@ namespace TP_5_Final
                             }
                         }
 
-                        opcion_elegida = Console.ReadLine();
+                        opcion_elegida = Console.ReadLine().Trim();
                         if (String.IsNullOrEmpty(opcion_elegida))
                         {
                             Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
@@ -939,7 +939,7 @@ namespace TP_5_Final
             {
                 Console.WriteLine("------------------------------------\nPor favor confirmar el pedido");
                 Console.WriteLine("[1] Confirmar \n[2] Cancelar");
-                opcion_elegida = Console.ReadLine();
+                opcion_elegida = Console.ReadLine().Trim();
 
                 if (String.IsNullOrEmpty(opcion_elegida))
                 {
