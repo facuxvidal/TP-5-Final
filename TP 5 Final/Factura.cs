@@ -105,16 +105,23 @@ namespace TP_5_Final
                     // Si no puso una fecha de inicio mayor a hoy
                     if (fecha_a_consultar[0] <= DateTime.Now)
                     {
-                        // Si encuentra el Cuit
-                        if (long.Parse(valores_factura[6]) == cliente.CUIT)
+                        if (fecha_a_consultar[0] <= fecha_a_consultar[1])
                         {
-                            // Si la fecha desde esta entre las dos fechas guardadas y la fecha hasta tambien
-                            if (fecha_a_consultar[0] <= DateTime.Parse(valores_factura[3]) && fecha_a_consultar[1] >= DateTime.Parse(valores_factura[3]))
+                            // Si encuentra el Cuit
+                            if (long.Parse(valores_factura[6]) == cliente.CUIT)
                             {
-                                Console.WriteLine(reporte);
-                                resumen_factuacion += $"N° Factura: {valores_factura[0]} \nPrecio Total: ${valores_factura[1]} \nUnidades: {valores_factura[2]} \nFecha Creacion: {valores_factura[3].ToString().Substring(0, 10)} \nFecha Vencimiento: {valores_factura[4].ToString().Substring(0, 10)} \nEstado: {valores_factura[5]}\n************************************\n";
-                                contador_cuit++;
+                                // Si la fecha desde esta entre las dos fechas guardadas y la fecha hasta tambien
+                                if (fecha_a_consultar[0] <= DateTime.Parse(valores_factura[3]) && fecha_a_consultar[1] >= DateTime.Parse(valores_factura[3]))
+                                {
+                                    Console.WriteLine(reporte);
+                                    resumen_factuacion += $"N° Factura: {valores_factura[0]} \nPrecio Total: ${valores_factura[1]} \nUnidades: {valores_factura[2]} \nFecha Creacion: {valores_factura[3].ToString().Substring(0, 10)} \nFecha Vencimiento: {valores_factura[4].ToString().Substring(0, 10)} \nEstado: {valores_factura[5]}\n************************************\n";
+                                    contador_cuit++;
+                                }
                             }
+                        }
+                        else
+                        {
+                            no_encontro = "------------------------------------\n¡Usted debe seleccionar una fecha 'Desde' anterior a 'Hasta!";
                         }
 
                     }
@@ -131,13 +138,13 @@ namespace TP_5_Final
                 }
                 else
                 {
-                    if (fecha_a_consultar[0] <= DateTime.Now)
+                    if (fecha_a_consultar[0] > DateTime.Now || fecha_a_consultar[0] > fecha_a_consultar[1])
                     {
-                        Console.WriteLine($"------------------------------------\nNo se encontraron facturas asociadas a su cuenta en el periodo de {fecha_a_consultar[0].ToString().Substring(0, 10)} - {fecha_a_consultar[1].ToString().Substring(0, 10)}");
+                        Console.WriteLine(no_encontro);
                     }
                     else
                     {
-                        Console.WriteLine(no_encontro);
+                        Console.WriteLine($"------------------------------------\nNo se encontraron facturas asociadas a su cuenta en el periodo de {fecha_a_consultar[0].ToString().Substring(0, 10)} - {fecha_a_consultar[1].ToString().Substring(0, 10)}");
                     }
                 }
             }
@@ -203,7 +210,7 @@ namespace TP_5_Final
                     Console.WriteLine($"------------------------------------\nSALDO DE CUENTA DE {cliente.Nombre} {cliente.Apellido} ENTRE {fecha_a_consultar[0].ToString().Substring(0, 10)} y {fecha_a_consultar[1].ToString().Substring(0, 10)}\n------------------------------------");
                     Console.WriteLine($"Facturacion Paga en Periodo: ${acumula_montos_pagos_en_periodo} \nFacturacion Impaga en Periodo: ${acumula_montos_impagos_en_periodo} \nServicios facturados en Periodo: {contador_pedidos_en_periodo}");
                 }
-                if (fecha_a_consultar[0] <= DateTime.Now)
+                if (fecha_a_consultar[0] <= DateTime.Now && fecha_a_consultar[0] <= fecha_a_consultar[1])
                 {
                     Console.WriteLine($"------------------------------------\nSALDO TOTAL DE CUENTA DE {cliente.Nombre} {cliente.Apellido}\n------------------------------------");
                     Console.WriteLine($"Total Facturacion Paga: ${acumula_montos_pagos} \nTotal Facturacion Impaga: ${acumula_montos_impagos} \nTotal Servicios facturados: {contador_pedidos}");
