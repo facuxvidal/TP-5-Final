@@ -294,193 +294,6 @@ namespace TP_5_Final
             return fechas;
         }
 
-        /*public static string MostrarConsultaProvinciaVieja(string ubicacion)
-        {
-            List<string> opciones_validas = new List<string>();
-            opciones_validas.Add("1");
-            opciones_validas.Add("2");
-            opciones_validas.Add("3");
-            opciones_validas.Add("4");
-            opciones_validas.Add("5");
-            opciones_validas.Add("6");
-            opciones_validas.Add("7");
-            opciones_validas.Add("8");
-            opciones_validas.Add("9");
-            opciones_validas.Add("10");
-            opciones_validas.Add("11");
-            opciones_validas.Add("12");
-            opciones_validas.Add("13");
-            opciones_validas.Add("14");
-            opciones_validas.Add("15");
-            opciones_validas.Add("16");
-            opciones_validas.Add("17");
-            opciones_validas.Add("18");
-            opciones_validas.Add("19");
-            opciones_validas.Add("20");
-            opciones_validas.Add("21");
-            opciones_validas.Add("22");
-            opciones_validas.Add("23");
-            opciones_validas.Add("24");
-
-            string opcion_elegida = "";
-            bool bandera = true;
-
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\nIngrese un número segun la Provincia de {ubicacion} que corresponda:  ");
-                Console.WriteLine("[1] CABA \n[2] BUENOS AIRES \n[3] CORDOBA \n[4] SAN JUAN \n[5] SAN LUIS \n[6] SANTA CRUZ \n[7] CHUBUT \n[8] RIO NEGRO ");
-                Console.WriteLine("[9] NEUQUEN \n[10] LA PAMPA \n[11] TIERRA DEL FUEGO \n[12] MENDOZA \n[13] LA RIOJA \n[14] ENTRE RIOS \n[15] SANTA FE \n[16] CORRIENTES ");
-                Console.WriteLine("[17] MISIONES \n[18] CHACO \n[19] CATAMARCA \n[20] SANTIAGO DEL ESTERO \n[21] TUCUMAN \n[22] FORMOSA \n[23] SALTA \n[24] JUJUY");
-                opcion_elegida = Console.ReadLine();
-
-                if (String.IsNullOrEmpty(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No ingreso ninguna provincia.");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!ValidaEntero(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!opciones_validas.Contains(opcion_elegida.ToUpper().Trim()))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Ingreso una provincia inexistente!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-
-            string rsp = "";
-            switch (opcion_elegida)
-            {
-                case "1":
-                    {
-                        rsp = "CABA";
-                        break;
-                    }
-                case "2":
-                    {
-                        rsp = "BUENOS AIRES";
-                        break;
-                    }
-                case "3":
-                    {
-                        rsp = "CORDOBA";
-                        break;
-                    }
-                case "4":
-                    {
-                        rsp = "SAN JUAN";
-                        break;
-                    }
-                case "5":
-                    {
-                        rsp = "SAN LUIS";
-                        break;
-                    }
-                case "6":
-                    {
-                        rsp = "SANTA CRUZ";
-                        break;
-                    }
-                case "7":
-                    {
-                        rsp = "CHUBUT";
-                        break;
-                    }
-                case "8":
-                    {
-                        rsp = "RIO NEGRO";
-                        break;
-                    }
-                case "9":
-                    {
-                        rsp = "NEUQUEN";
-                        break;
-                    }
-                case "10":
-                    {
-                        rsp = "LA PAMPA";
-                        break;
-                    }
-                case "11":
-                    {
-                        rsp = "TIERRA DEL FUEGO";
-                        break;
-                    }
-                case "12":
-                    {
-                        rsp = "MENDOZA";
-                        break;
-                    }
-                case "13":
-                    {
-                        rsp = "LA RIOJA";
-                        break;
-                    }
-                case "14":
-                    {
-                        rsp = "ENTRE RIOS";
-                        break;
-                    }
-                case "15":
-                    {
-                        rsp = "SANTA FE";
-                        break;
-                    }
-                case "16":
-                    {
-                        rsp = "CORRIENTES";
-                        break;
-                    }
-                case "17":
-                    {
-                        rsp = "MISIONES";
-                        break;
-                    }
-                case "18":
-                    {
-                        rsp = "CHACO";
-                        break;
-                    }
-                case "19":
-                    {
-                        rsp = "CATAMARCA";
-                        break;
-                    }
-                case "20":
-                    {
-                        rsp = "SANTIAGO DEL ESTERO";
-                        break;
-                    }
-                case "21":
-                    {
-                        rsp = "TUCUMAN";
-                        break;
-                    }
-                case "22":
-                    {
-                        rsp = "FORMOSA";
-                        break;
-                    }
-                case "23":
-                    {
-                        rsp = "SALTA";
-                        break;
-                    }
-                case "24":
-                    {
-                        rsp = "JUJUY";
-                        break;
-                    }
-            }
-            return rsp;
-        }*/
-
         public static string MostrarConsultaProvincia(string ubicacion)
         {
             string provincia_por_provincia = Path.GetFullPath("..\\..\\..\\Provincias.txt");
@@ -835,7 +648,7 @@ namespace TP_5_Final
                     bool bandera = true;
                     while (bandera)
                     {
-                        Console.WriteLine($"------------------------------------\nIngrese la localidad que corresponda: \n------------------------------------");
+                        Console.WriteLine($"------------------------------------\nIngrese el pais hacia donde desea enviar el pedido: \n------------------------------------");
                         int un_pais = 1;
                         foreach (var item in paises)
                         {
@@ -903,9 +716,9 @@ namespace TP_5_Final
         private static bool ValidaEntero(string numero)
         {
             bool rsp = true;
-            int entero_validado;
+            long entero_validado;
 
-            if (!int.TryParse(numero, out entero_validado))
+            if (!long.TryParse(numero, out entero_validado))
             {
                 rsp = false;
             }

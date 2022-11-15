@@ -1,3 +1,3 @@
-Facundo|Vidal|20407851383|40785138|Riglos 212 Piso 7|1569637795|facundo.vidal.97@gmail.com|true|facux|facux
-Lionel|Messi|21318374455|31837445|37 Avenue Hoche|1591827364|lionel.messi@gmail.com|true|messi|messi
 Emiliano|Martinez|22324406333|32440633|Trinity Road Birmingham B6 6HE|15019112|dibu.martinez@gmail.com|false|dibu|dibu
+Andres|Panitsch|20247352345|24735234|Riglos 212 Piso 7|1569637795|andres.panitsch@gmail.com|true|andres|andresA1234
+Alejandro|Méndez|21203658233|20365823|37 Avenue Hoche|1591827364|alejandro.mendez@gmail.com|true|alejandro|aleA1234

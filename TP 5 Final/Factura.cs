@@ -121,7 +121,7 @@ namespace TP_5_Final
                         }
                         else
                         {
-                            no_encontro = "------------------------------------\n¡Usted debe seleccionar una fecha 'Desde' anterior a 'Hasta!";
+                            no_encontro = "------------------------------------\n¡Usted debe seleccionar una fecha 'Desde' anterior a 'Hasta'!";
                         }
 
                     }
