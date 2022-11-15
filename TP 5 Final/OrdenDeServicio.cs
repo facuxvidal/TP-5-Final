@@ -13,7 +13,7 @@ namespace TP_5_Final
         {
 
         }
-        public OrdenDeServicio(int numeroOrden, bool esPrioridad, DateTime fechaCreacion, DateTime fechaEntrega, string estado, string origen, string destino, string cuit)
+        public OrdenDeServicio(int numeroOrden, bool esPrioridad, DateTime fechaCreacion, DateTime fechaEntrega, string estado, string origen, string destino, long cuit)
         {
             NumeroOrden = numeroOrden;
             EsPrioridad = esPrioridad;
@@ -22,7 +22,7 @@ namespace TP_5_Final
             Estado = estado;
             Origen = origen;
             Destino = destino;
-            Cuit = cuit;
+            CUIT = cuit;
         }
 
         public int NumeroOrden { get; set; }
@@ -32,7 +32,7 @@ namespace TP_5_Final
         public String Estado { get; set; }
         public String Origen { get; set; }
         public String Destino { get; set; }
-        public String Cuit { get; set; }
+        public long CUIT { get; set; }
 
         public static void ConsultarSeguimiento(string numero_orden, string cuit)
         {
@@ -101,7 +101,7 @@ namespace TP_5_Final
 
         public string ToFormat()
         {
-            return string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}", NumeroOrden, EsPrioridad, FechaCreacion, FechaEntrega, Estado, Origen, Destino, Cuit);
+            return string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}", NumeroOrden, EsPrioridad, FechaCreacion, FechaEntrega, Estado, Origen, Destino, CUIT);
         }
     }
 }

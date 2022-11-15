@@ -25,7 +25,7 @@ namespace TP_5_Final
         public String Destino { get; set; }
         public String Origen { get; set; }
 
-        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado, string origen, string destino, string cuit)
+        public OrdenDeServicio GenerarOrdenDeServicio(int nro_orden_servicio, bool es_prioridad, DateTime fecha_creacion, DateTime fecha_entrega, string estado, string origen, string destino, long cuit)
         {
             string path = Path.GetFullPath("..\\..\\..\\OrdenesDeServicio.txt");
             FileInfo FI = new FileInfo(path);
@@ -45,7 +45,8 @@ namespace TP_5_Final
                                                                 FechaEntrega = DateTime.Parse(valores_orden[3]),
                                                                 Estado = valores_orden[4],
                                                                 Origen = valores_orden[5],
-                                                                Destino = valores_orden[6]
+                                                                Destino = valores_orden[6],
+                                                                CUIT = long.Parse(valores_orden[7])
                     });
                     contador_lineas++;
                 }

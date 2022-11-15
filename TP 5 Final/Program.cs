@@ -277,7 +277,7 @@ namespace TP_5_Final
                         string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);
                         if (confirmacion == "1")
                         {
-                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso", solicitud.Origen, solicitud.Destino, cliente.CUIT.ToString());
+                            OrdenDeServicio orden = solicitud.GenerarOrdenDeServicio(solicitud.NumeroOrdenServicio, tarifa.RecargoUrgente, solicitud.Fecha, solicitud.Fecha.AddDays(7), "En curso", solicitud.Origen, solicitud.Destino, cliente.CUIT);
                             Factura factura = new Factura();
                             factura.GenerarFactura(tarifa.MontoTotal, contador_encomiendas, cliente.CUIT);
                             Console.WriteLine($"------------------------------------\n¡SE HA GENERADO UN NUEVO PEDIDO CON N°ORDEN DE SERVICIO: {orden.NumeroOrden}, MUCHAS GRACIAS POR UTILIZAR NUESTRO SISTEMA!");
