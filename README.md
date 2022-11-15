@@ -10,7 +10,7 @@ El sistema podrá consultar lo sieguiente:
 ## Limitación
 Unicamente podran acceder a las funcionalidades del sistemas aquellos usuarios que se encuntran registros en el archivo denominado "Clientes.txt". Los ultimos dos campos de cada linea del archivo de texto corresponden al Usuario y Contraseña respectivamente.
 
-## Levantar la API localmente
+## Levantar el proyecto localmente
 ### Requerimientos
 Tener instalado en su maquina:
 
