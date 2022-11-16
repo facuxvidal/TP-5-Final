@@ -554,71 +554,66 @@ namespace TP_5_Final
 
         public static string MostrarConsultaRegionInternacional()
         {
-            List<string> opciones_validas = new List<string>();
-            opciones_validas.Add("1");
-            opciones_validas.Add("2");
-            opciones_validas.Add("3");
-            opciones_validas.Add("4");
-            opciones_validas.Add("5");
-
+            string region_por_region = Path.GetFullPath("..\\..\\..\\Regiones.txt");
+            FileInfo FI = new FileInfo(region_por_region);
+            StreamReader SR = FI.OpenText();
+            string[] lineas = File.ReadAllLines(region_por_region);
+            int contador_lineas = 0;
             string opcion_elegida = "";
-            bool bandera = true;
-            while (bandera)
-            {
-                Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
-                Console.WriteLine("[1] A PAISES LIMITROFES\n[2] AMERICA LATINA\n[3] AMERICA DEL NORTE\n[4] EUROPA \n[5] ASIA");
-                opcion_elegida = Console.ReadLine().Trim();
-
-                if (String.IsNullOrEmpty(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!ValidaEntero(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else if (!opciones_validas.Contains(opcion_elegida))
-                {
-                    Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
-                    Console.WriteLine("------------------------------------\nIntente nuevamente!");
-                }
-                else
-                {
-                    bandera = false;
-                }
-            }
-
             string rsp = "";
-            switch (opcion_elegida)
+            while (!SR.EndOfStream)
             {
-                case "1":
+                SR.ReadLine();
+                var regiones = lineas[contador_lineas].Split('|');
+                List<string> opciones_validas = new List<string>();
+                int agrego_nueva_opcion = 0;
+                foreach (string item in regiones)
+                {
+                    opciones_validas.Add($"{agrego_nueva_opcion}");
+                    agrego_nueva_opcion++;
+                }
+
+                bool bandera = true;
+                while (bandera)
+                {
+                    Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
+                    ;
+                    int una_region = 1;
+                    foreach (var item in regiones)
                     {
-                        rsp = $"PAISES LIMITROFES";
-                        break;
+                        if (agrego_nueva_opcion != una_region)
+                        {
+                            Console.WriteLine($"[{una_region}] {regiones[una_region]}");
+                            una_region++;
+                        }
                     }
-                case "2":
+
+                    opcion_elegida = Console.ReadLine().Trim();
+                    if (String.IsNullOrEmpty(opcion_elegida))
                     {
-                        rsp = $"AMERICA LATINA";
-                        break;
+                        Console.WriteLine("------------------------------------\nERROR - No seleccionó ninguna opcion.");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
                     }
-                case "3":
+                    else if (!ValidaEntero(opcion_elegida))
                     {
-                        rsp = $"AMERICA DEL NORTE";
-                        break;
+                        Console.WriteLine("------------------------------------\nERROR - No se pudo validar el numero ingresado!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
                     }
-                case "4":
+                    else if (!opciones_validas.Contains(opcion_elegida))
                     {
-                        rsp = $"EUROPA";
-                        break;
+                        Console.WriteLine("------------------------------------\nERROR - Marcó una opcion fuera del intervalo propuesto!");
+                        Console.WriteLine("------------------------------------\nIntente nuevamente!");
                     }
-                case "5":
+                    else
                     {
-                        rsp = $"ASIA";
-                        break;
+                        bandera = false;
                     }
+                }
+                rsp = regiones[int.Parse(opcion_elegida)];
+                break;
+
             }
+            SR.Close();
             return rsp;
         }
 
