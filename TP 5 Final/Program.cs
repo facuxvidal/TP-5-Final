@@ -37,7 +37,7 @@ namespace TP_5_Final
                         string rsp_encomiendas = Menu.MostrarConsultaEncomiendas();
                         do
                         {
-                            string rsp_consulta_peso = Menu.MostrarConsutaPeso(contador_encomiendas);
+                            string rsp_consulta_peso = Menu.MostrarConsultaPeso(contador_encomiendas);
                             List<string> respuestas_validas_peso = new List<string>();
                             respuestas_validas_peso.Add("1");
                             respuestas_validas_peso.Add("2");

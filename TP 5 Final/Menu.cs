@@ -90,7 +90,7 @@ namespace TP_5_Final
             return encomiendas;
         }
 
-        public static string MostrarConsutaPeso(int encomiendas)
+        public static string MostrarConsultaPeso(int encomiendas)
         {
             List<string> opciones_validas = new List<string>();
             opciones_validas.Add("1");
