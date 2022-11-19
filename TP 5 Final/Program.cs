@@ -237,36 +237,12 @@ namespace TP_5_Final
                             ubicacion = region_internacional;
                         }
 
-                        // Definims el tipo de envio para el tarifario
-                        List<string> RegionSur = new List<string>() { "TIERRA DEL FUEGO", "SANTA CRUZ", "CHUBUT", "RIO NEGRO", "NEUQUEN", "LA PAMPA" };
-                        List<string> RegionCentro = new List<string>() { "ENTRE RIOS", "CORDOBA", "SANTA FE", "SAN LUIS", "SAN JUAN", "MENDOZA", "LA RIOJA" };
-                        List<string> RegionNorte = new List<string>() { "CHACO", "MISIONES", "CORRIENTES", "SANTIAGO DEL ESTERO", "FORMOSA", "JUJUY", "SALTA", "TUCUMAN", "CATAMARCA" };
-                        List<string> RegionMetropolitana = new List<string>() { "BUENOS AIRES", "CABA" };
-
+                        // Si ubicacion esta vacio es porque es un pedido Nacional
+                        // En este caso, consultamos en que a que region corresponde enviar el pedido, si es LOCAL, PROVINCIAL, REGIONAL o NACIONAL
+                        // En el caso de ser un pedido Internacional, ubicacion toma el valor de PAISES LIMITROFES, AMERICA LATINA, AMERICA DEL NORTE, EUROPA o ASIA
                         if (ubicacion == "")
                         {
-                            if (localidad_origen == localidad_destino)
-                            {
-                                ubicacion = "LOCAL";
-                            }
-                            else if (provincia_origen == provincia_destino)
-                            {
-                                ubicacion = "PROVINCIAL";
-                            }
-                            else if ((RegionSur.Contains(provincia_origen) && RegionSur.Contains(provincia_destino))
-                                || (RegionCentro.Contains(provincia_origen) && RegionCentro.Contains(provincia_destino))
-                                || (RegionMetropolitana.Contains(provincia_origen) && RegionMetropolitana.Contains(provincia_destino))
-                                || (RegionNorte.Contains(provincia_origen) && RegionNorte.Contains(provincia_destino)))
-                            {
-                                ubicacion = "REGIONAL";
-                            }
-                            else if (!((RegionSur.Contains(provincia_origen) && RegionSur.Contains(provincia_destino))
-                                || (RegionCentro.Contains(provincia_origen) && RegionCentro.Contains(provincia_destino))
-                                || (RegionMetropolitana.Contains(provincia_origen) && RegionMetropolitana.Contains(provincia_destino))
-                                || (RegionNorte.Contains(provincia_origen) && RegionNorte.Contains(provincia_destino))))
-                            {
-                                ubicacion = "NACIONAL";
-                            }
+                            ubicacion = EncomiendaCorrespondencia.ConsultaRegionPorUbicacion(localidad_origen, localidad_destino, provincia_origen, provincia_destino);
                         }
 
                         // Calculamos precio por peso de la encomienda/s segun Region: LOCAL,PROVINCIAL,REGIONAL,NACIONAL.

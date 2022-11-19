@@ -554,10 +554,10 @@ namespace TP_5_Final
 
         public static string MostrarConsultaRegionInternacional()
         {
-            string region_por_region = Path.GetFullPath("..\\..\\..\\Regiones.txt");
-            FileInfo FI = new FileInfo(region_por_region);
+            string region_internacional = Path.GetFullPath("..\\..\\..\\RegionesInternacionales.txt");
+            FileInfo FI = new FileInfo(region_internacional);
             StreamReader SR = FI.OpenText();
-            string[] lineas = File.ReadAllLines(region_por_region);
+            string[] lineas = File.ReadAllLines(region_internacional);
             int contador_lineas = 0;
             string opcion_elegida = "";
             string rsp = "";
@@ -567,7 +567,7 @@ namespace TP_5_Final
                 var regiones = lineas[contador_lineas].Split('|');
                 List<string> opciones_validas = new List<string>();
                 int agrego_nueva_opcion = 0;
-                foreach (string item in regiones)
+                foreach (string region in regiones)
                 {
                     opciones_validas.Add($"{agrego_nueva_opcion}");
                     agrego_nueva_opcion++;
@@ -577,9 +577,8 @@ namespace TP_5_Final
                 while (bandera)
                 {
                     Console.WriteLine($"------------------------------------\n¿Hacia que parte del mundo desea enviar su pedido? Ingrese un número segun corresponda: \n------------------------------------");
-                    ;
                     int una_region = 1;
-                    foreach (var item in regiones)
+                    foreach (var region in regiones)
                     {
                         if (agrego_nueva_opcion != una_region)
                         {
