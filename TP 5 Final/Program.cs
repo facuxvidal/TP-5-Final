@@ -247,7 +247,9 @@ namespace TP_5_Final
 
                         // Calculamos precio por peso de la encomienda/s segun Region: LOCAL,PROVINCIAL,REGIONAL,NACIONAL.
                         Tarifa tarifa = new Tarifa(es_internacional, urgente, retiro_domicilio, entrega_domicilio);
-                        Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion);
+
+                        //Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion);
+                        Tarifa.Calcular2(tarifa, solicitud, encomiendas, ubicacion);
 
                         // Muestra resumen y pide confirmación
                         string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);

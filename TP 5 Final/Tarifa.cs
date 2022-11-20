@@ -139,5 +139,105 @@ namespace TP_5_Final
             return tarifa.MontoTotal = sumador + sumador_urgente + precio_bulto;
 
         }
+
+        public static decimal Calcular2(Tarifa tarifa, SolicitudDeServicio solicitud, List<EncomiendaCorrespondencia> encomiendas, string ubicacion)
+        {
+            decimal precio_bulto = 0;
+            string tarifas_por_region = Path.GetFullPath("..\\..\\..\\TarifasXRegion.txt");
+            FileInfo FI = new FileInfo(tarifas_por_region);
+            StreamReader SR = FI.OpenText();
+            string[] lineas = File.ReadAllLines(tarifas_por_region);
+            int contador_lineas = 0;
+            int contador_peso = 0;
+            while (!SR.EndOfStream)
+            {
+                SR.ReadLine();
+                var tarifas_por_peso = lineas[contador_lineas].Split('|');
+                contador_lineas++;
+                if (tarifas_por_peso[0] == ubicacion)
+                {
+                    foreach (var encomienda in encomiendas)
+                    {
+                        contador_peso++;
+                        var peso_y_costo = tarifas_por_peso[contador_peso].Split('-');
+
+                        foreach (var peso in peso_y_costo) // TENEMOS QUE RECORRER LOS PESOS Y SUS COSTOS PARA MACHEARLOS CON EL PESO DE LA ENCOMIENDA SIN QUE SE VAYA DEL LOOP
+                        {
+
+                        }
+
+                        if (peso_y_costo[0] == encomienda.Peso.ToString()) // ESTO LO TENEMOS QUE CORREGIR
+                        {
+                            switch (ubicacion)
+                            {
+                                case "LOCAL":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "PROVINCIAL":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "REGIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "NACIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "PAISES LIMITROFES":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "AMERICA LATINA":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "AMERICA DEL NORTE":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "EUROPA":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                                case "ASIA":
+                                    {
+                                        precio_bulto += decimal.Parse(peso_y_costo[1]);
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+                contador_peso = 0;
+            }
+            SR.Close();
+
+            decimal sumador = 0;
+            decimal sumador_urgente = 0;
+            if (tarifa.RecargoRetiroEnPuerta)
+                sumador += 3500;
+            if (tarifa.RecargoEntregaEnPuerta)
+                sumador += 1500;
+            if (tarifa.RecargoUrgente)
+            {
+                sumador_urgente += precio_bulto * 0.5M;
+                if (sumador_urgente > 15000)
+                {
+                    sumador_urgente = 15000;
+                }
+            }
+            return tarifa.MontoTotal = sumador + sumador_urgente + precio_bulto;
+        }
     }
 }
