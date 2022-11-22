@@ -98,6 +98,7 @@ namespace TP_5_Final
                         bool retiro_domicilio;
                         bool es_internacional;
                         string ubicacion = "";
+                        string previo_internacional = "";
 
                         Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                         // Consulta direcion de Entrega o Retiro de ORIGEN
@@ -237,17 +238,23 @@ namespace TP_5_Final
                             ubicacion = region_internacional;
                         }
 
+                        Tarifa tarifa = new Tarifa(es_internacional, urgente, retiro_domicilio, entrega_domicilio);
+
                         // Si ubicacion esta vacio es porque es un pedido Nacional
                         // En este caso, consultamos en que a que region corresponde enviar el pedido, si es LOCAL, PROVINCIAL, REGIONAL o NACIONAL
                         // En el caso de ser un pedido Internacional, ubicacion toma el valor de PAISES LIMITROFES, AMERICA LATINA, AMERICA DEL NORTE, EUROPA o ASIA
                         if (ubicacion == "")
                         {
                             ubicacion = EncomiendaCorrespondencia.ConsultaRegionPorUbicacion(localidad_origen, localidad_destino, provincia_origen, provincia_destino);
+                            Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion, "");
+                        }
+                        else
+                        {
+                            previo_internacional = EncomiendaCorrespondencia.ConsultaRegionPorUbicacionInternacional(provincia_origen, "CABA");
+                            Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion, previo_internacional);
                         }
 
                         // Calculamos precio por peso de la encomienda/s segun Region: LOCAL,PROVINCIAL,REGIONAL,NACIONAL.
-                        Tarifa tarifa = new Tarifa(es_internacional, urgente, retiro_domicilio, entrega_domicilio);
-                        Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion);
 
                         // Muestra resumen y pide confirmación
                         string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);

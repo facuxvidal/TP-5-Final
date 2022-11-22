@@ -26,7 +26,7 @@ namespace TP_5_Final
         public bool RecargoEntregaEnPuerta { get; set; }
 
 
-        public static decimal Calcular(Tarifa tarifa, SolicitudDeServicio solicitud, List<EncomiendaCorrespondencia> encomiendas, string ubicacion)
+        public static decimal Calcular(Tarifa tarifa, SolicitudDeServicio solicitud, List<EncomiendaCorrespondencia> encomiendas, string ubicacion, string previo_internacional)
         {
             decimal precio_bulto = 0;
             string tarifas_por_region = Path.GetFullPath("..\\..\\..\\TarifasXRegion.txt");
@@ -55,7 +55,7 @@ namespace TP_5_Final
                             }
                         }
 
-                        switch (ubicacion)
+                        /*switch (ubicacion)
                         {
                             case "LOCAL":
                                 {
@@ -102,7 +102,47 @@ namespace TP_5_Final
                                     precio_bulto += decimal.Parse(costo_tarifa);
                                     break;
                                 }
+                        }*/
+                        precio_bulto += decimal.Parse(costo_tarifa);
+                    }
+                }
+
+                // Si es internacional sumo costo de envío hasta CABA
+                if(tarifas_por_peso[0] == previo_internacional)
+                {
+                    foreach (var encomienda in encomiendas)
+                    {
+                        // Recorrro  las tarifas hasta que encuentro el peso de la encomienda y la macheo con su costo
+                        for (int i = 1; i < 5; i++)
+                        {
+                            var peso_y_costo = tarifas_por_peso[i].Split('-');
+                            if (peso_y_costo[0] == encomienda.Peso.ToString())
+                            {
+                                costo_tarifa = peso_y_costo[1];
+                                break;
+                            }
                         }
+
+                        /*switch (previo_internacional)
+                        {
+                            case "PROVINCIAL":
+                                {
+                                    precio_bulto += decimal.Parse(costo_tarifa);
+                                    break;
+                                }
+                            case "REGIONAL":
+                                {
+                                    precio_bulto += decimal.Parse(costo_tarifa);
+                                    break;
+                                }
+                            case "NACIONAL":
+                                {
+                                    precio_bulto += decimal.Parse(costo_tarifa);
+                                    break;
+                                }
+                        }*/
+                        precio_bulto += decimal.Parse(costo_tarifa);
+
                     }
                 }
             }
