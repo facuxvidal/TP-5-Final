@@ -107,42 +107,45 @@ namespace TP_5_Final
                     }
                 }
 
-                // Si es internacional sumo costo de envío hasta CABA
-                if(tarifas_por_peso[0] == previo_internacional)
+                // Si es internacional sumo costo de envío hasta CABA, en caso de que el origen no sea CABA.
+                if (previo_internacional != "")
                 {
-                    foreach (var encomienda in encomiendas)
+                    if (tarifas_por_peso[0] == previo_internacional)
                     {
-                        // Recorrro  las tarifas hasta que encuentro el peso de la encomienda y la macheo con su costo
-                        for (int i = 1; i < 5; i++)
+                        foreach (var encomienda in encomiendas)
                         {
-                            var peso_y_costo = tarifas_por_peso[i].Split('-');
-                            if (peso_y_costo[0] == encomienda.Peso.ToString())
+                            // Recorrro  las tarifas hasta que encuentro el peso de la encomienda y la macheo con su costo
+                            for (int i = 1; i < 5; i++)
                             {
-                                costo_tarifa = peso_y_costo[1];
-                                break;
+                                var peso_y_costo = tarifas_por_peso[i].Split('-');
+                                if (peso_y_costo[0] == encomienda.Peso.ToString())
+                                {
+                                    costo_tarifa = peso_y_costo[1];
+                                    break;
+                                }
                             }
+
+                            /*switch (previo_internacional)
+                            {
+                                case "PROVINCIAL":
+                                    {
+                                        precio_bulto += decimal.Parse(costo_tarifa);
+                                        break;
+                                    }
+                                case "REGIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(costo_tarifa);
+                                        break;
+                                    }
+                                case "NACIONAL":
+                                    {
+                                        precio_bulto += decimal.Parse(costo_tarifa);
+                                        break;
+                                    }
+                            }*/
+                            precio_bulto += decimal.Parse(costo_tarifa);
+
                         }
-
-                        /*switch (previo_internacional)
-                        {
-                            case "PROVINCIAL":
-                                {
-                                    precio_bulto += decimal.Parse(costo_tarifa);
-                                    break;
-                                }
-                            case "REGIONAL":
-                                {
-                                    precio_bulto += decimal.Parse(costo_tarifa);
-                                    break;
-                                }
-                            case "NACIONAL":
-                                {
-                                    precio_bulto += decimal.Parse(costo_tarifa);
-                                    break;
-                                }
-                        }*/
-                        precio_bulto += decimal.Parse(costo_tarifa);
-
                     }
                 }
             }

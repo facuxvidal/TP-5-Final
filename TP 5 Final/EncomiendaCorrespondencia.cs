@@ -194,10 +194,11 @@ namespace TP_5_Final
             }
             SR.Close();
 
-
+            // El único caso que sería provincial es si el origen es Buenos Aires, fuera de CABA. 
+            // En caso de que sea CABA, no habría costo de envio nacional previo al internacional.
             if (provincia_origen == provincia_destino)
             {
-                rsp = "PROVINCIAL";
+                rsp = "";
             }
             else if ((RegionSur.Contains(provincia_origen) && RegionSur.Contains(provincia_destino))
                 || (RegionCentro.Contains(provincia_origen) && RegionCentro.Contains(provincia_destino))
@@ -212,6 +213,10 @@ namespace TP_5_Final
                 || (RegionNorte.Contains(provincia_origen) && RegionNorte.Contains(provincia_destino))))
             {
                 rsp = "NACIONAL";
+            }
+            else
+            {
+                rsp = "";
             }
 
             return rsp;
