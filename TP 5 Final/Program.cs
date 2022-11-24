@@ -98,7 +98,7 @@ namespace TP_5_Final
                         bool retiro_domicilio;
                         bool es_internacional;
                         string ubicacion = "";
-                        string previo_internacional = "";
+                        string precio_internacional = "";
 
                         Console.WriteLine("------------------------------------\nSELECCIONAR ORIGEN");
                         // Consulta direcion de Entrega o Retiro de ORIGEN
@@ -246,15 +246,15 @@ namespace TP_5_Final
                         if (ubicacion == "")
                         {
                             ubicacion = EncomiendaCorrespondencia.ConsultaRegionPorUbicacion(localidad_origen, localidad_destino, provincia_origen, provincia_destino);
-                            Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion, "");
+                            Tarifa.Calcular(tarifa, encomiendas, ubicacion, "");
                         }
-                        else
+                        else // Calculamos precio por peso de la encomienda/s segun Region: LOCAL,PROVINCIAL,REGIONAL,NACIONAL.
                         {
-                            previo_internacional = EncomiendaCorrespondencia.ConsultaRegionPorUbicacionInternacional(provincia_origen, "CABA");
-                            Tarifa.Calcular(tarifa, solicitud, encomiendas, ubicacion, previo_internacional);
+                            precio_internacional = EncomiendaCorrespondencia.ConsultaRegionPorUbicacionInternacional(provincia_origen, "CABA");
+                            Tarifa.Calcular(tarifa, encomiendas, ubicacion, precio_internacional);
                         }
+                        
 
-                        // Calculamos precio por peso de la encomienda/s segun Region: LOCAL,PROVINCIAL,REGIONAL,NACIONAL.
 
                         // Muestra resumen y pide confirmación
                         string confirmacion = Menu.MostrarResumenPedido(contador_encomiendas, tarifa.MontoTotal, origen, destino);
